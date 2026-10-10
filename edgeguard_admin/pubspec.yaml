@@ -35,7 +35,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
-  serverpod_flutter: ^2.9.5
+  serverpod_flutter: ^4.0.4
   edgeguard_client:
     path: ../edgeguard_client
 
@@ -91,3 +91,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+

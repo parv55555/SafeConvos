@@ -24,7 +24,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  serverpod_flutter: 2.9.5
+  serverpod_flutter: ^4.0.4
   edgeguard_client:
     path: ../edgeguard_client
 
@@ -80,3 +80,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+

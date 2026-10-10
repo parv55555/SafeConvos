@@ -7,25 +7,27 @@
 // ignore_for_file: public_member_api_docs
 // ignore_for_file: type_literal_in_constant_pattern
 // ignore_for_file: use_super_parameters
+// ignore_for_file: invalid_use_of_internal_member
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:serverpod_client/serverpod_client.dart' as _i1;
-import 'dart:async' as _i2;
-import 'package:edgeguard_client/src/protocol/scam_report.dart' as _i3;
+import 'dart:async' as _ida;
 import 'package:edgeguard_client/src/protocol/false_positive_report.dart'
-    as _i4;
-import 'package:edgeguard_client/src/protocol/greeting.dart' as _i5;
-import 'protocol.dart' as _i6;
+    as _ip23wwz2;
+import 'package:edgeguard_client/src/protocol/greeting.dart' as _it96b0ao;
+import 'package:edgeguard_client/src/protocol/scam_report.dart' as _ibgps2n3;
+import 'package:http/http.dart' as _i85jenna;
+import 'package:serverpod_client/serverpod_client.dart' as _isc;
+import 'protocol.dart' as _il2as5qe;
 
 /// {@category Endpoint}
-class EndpointScam extends _i1.EndpointRef {
-  EndpointScam(_i1.EndpointCaller caller) : super(caller);
+class EndpointScam extends _isc.EndpointRef {
+  EndpointScam(_isc.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'scam';
 
   /// Submits an anonymous report for a scam number (Silently called by the app)
-  _i2.Future<void> reportScam(_i3.ScamReport report) =>
+  _ida.Future<void> reportScam(_ibgps2n3.ScamReport report) =>
       caller.callServerEndpoint<void>(
         'scam',
         'reportScam',
@@ -33,7 +35,7 @@ class EndpointScam extends _i1.EndpointRef {
       );
 
   /// Submits an anonymous report for a false positive message (User clicked "Not a Scam")
-  _i2.Future<void> reportFalsePositive(_i4.FalsePositiveReport report) =>
+  _ida.Future<void> reportFalsePositive(_ip23wwz2.FalsePositiveReport report) =>
       caller.callServerEndpoint<void>(
         'scam',
         'reportFalsePositive',
@@ -44,14 +46,14 @@ class EndpointScam extends _i1.EndpointRef {
 /// A separate endpoint specifically for the Cyber Cell / Admin to pull datasets.
 /// This would be protected by authentication in a real scenario.
 /// {@category Endpoint}
-class EndpointAdminDataset extends _i1.EndpointRef {
-  EndpointAdminDataset(_i1.EndpointCaller caller) : super(caller);
+class EndpointAdminDataset extends _isc.EndpointRef {
+  EndpointAdminDataset(_isc.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'adminDataset';
 
   /// Compiles a backend dataset of numbers reported > 5 times.
-  _i2.Future<List<String>> getVerifiedScamDataset() =>
+  _ida.Future<List<String>> getVerifiedScamDataset() =>
       caller.callServerEndpoint<List<String>>(
         'adminDataset',
         'getVerifiedScamDataset',
@@ -59,16 +61,16 @@ class EndpointAdminDataset extends _i1.EndpointRef {
       );
 
   /// Fetches all raw scam reports
-  _i2.Future<List<_i3.ScamReport>> getAllScamReports() =>
-      caller.callServerEndpoint<List<_i3.ScamReport>>(
+  _ida.Future<List<_ibgps2n3.ScamReport>> getAllScamReports() =>
+      caller.callServerEndpoint<List<_ibgps2n3.ScamReport>>(
         'adminDataset',
         'getAllScamReports',
         {},
       );
 
   /// Fetches all false positive reports
-  _i2.Future<List<_i4.FalsePositiveReport>> getAllFalsePositives() =>
-      caller.callServerEndpoint<List<_i4.FalsePositiveReport>>(
+  _ida.Future<List<_ip23wwz2.FalsePositiveReport>> getAllFalsePositives() =>
+      caller.callServerEndpoint<List<_ip23wwz2.FalsePositiveReport>>(
         'adminDataset',
         'getAllFalsePositives',
         {},
@@ -78,46 +80,46 @@ class EndpointAdminDataset extends _i1.EndpointRef {
 /// This is an example endpoint that returns a greeting message through
 /// its [hello] method.
 /// {@category Endpoint}
-class EndpointGreeting extends _i1.EndpointRef {
-  EndpointGreeting(_i1.EndpointCaller caller) : super(caller);
+class EndpointGreeting extends _isc.EndpointRef {
+  EndpointGreeting(_isc.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'greeting';
 
   /// Returns a personalized greeting message: "Hello {name}".
-  _i2.Future<_i5.Greeting> hello(String name) =>
-      caller.callServerEndpoint<_i5.Greeting>(
+  _ida.Future<_it96b0ao.Greeting> hello(String name) =>
+      caller.callServerEndpoint<_it96b0ao.Greeting>(
         'greeting',
         'hello',
         {'name': name},
       );
 }
 
-class Client extends _i1.ServerpodClientShared {
+class Client extends _isc.ServerpodClientShared {
   Client(
     String host, {
     dynamic securityContext,
-    _i1.AuthenticationKeyManager? authenticationKeyManager,
     Duration? streamingConnectionTimeout,
     Duration? connectionTimeout,
     Function(
-      _i1.MethodCallContext,
+      _isc.MethodCallContext,
       Object,
       StackTrace,
     )? onFailedCall,
-    Function(_i1.MethodCallContext)? onSucceededCall,
+    Function(_isc.MethodCallContext)? onSucceededCall,
     bool? disconnectStreamsOnLostInternetConnection,
+    _i85jenna.Client? httpClientOverride,
   }) : super(
           host,
-          _i6.Protocol(),
+          _il2as5qe.Protocol(),
           securityContext: securityContext,
-          authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
           connectionTimeout: connectionTimeout,
           onFailedCall: onFailedCall,
           onSucceededCall: onSucceededCall,
           disconnectStreamsOnLostInternetConnection:
               disconnectStreamsOnLostInternetConnection,
+          httpClientOverride: httpClientOverride,
         ) {
     scam = EndpointScam(this);
     adminDataset = EndpointAdminDataset(this);
@@ -131,12 +133,12 @@ class Client extends _i1.ServerpodClientShared {
   late final EndpointGreeting greeting;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {
+  Map<String, _isc.EndpointRef> get endpointRefLookup => {
         'scam': scam,
         'adminDataset': adminDataset,
         'greeting': greeting,
       };
 
   @override
-  Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};
+  Map<String, _isc.ModuleEndpointCaller> get moduleLookup => {};
 }
