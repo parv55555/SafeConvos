@@ -46,7 +46,6 @@ class AdminDatasetEndpoint extends Endpoint {
     return await ScamReport.db.find(
       session,
       orderBy: (t) => t.timestamp,
-      orderDescending: true,
     );
   }
 
@@ -55,7 +54,7 @@ class AdminDatasetEndpoint extends Endpoint {
     return await FalsePositiveReport.db.find(
       session,
       orderBy: (t) => t.timestamp,
-      orderDescending: true,
     );
   }
 }
+

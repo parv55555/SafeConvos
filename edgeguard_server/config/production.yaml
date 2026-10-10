@@ -30,10 +30,10 @@ webServer:
 # If you are connecting on a public IP (e.g. on AWS or Google Cloud Run), you
 # connect on the public IP of the database e.g. database.examplepod.com.
 database:
-  host: database.private-production.examplepod.com
-  port: 5432
-  name: serverpod
-  user: postgres
+  host: ${PGHOST}
+  port: ${PGPORT}
+  name: ${PGDATABASE}
+  user: ${PGUSER}
   requireSsl: true
   #isUnixSocket: true # defaults to false
 
@@ -60,3 +60,4 @@ sessionLogs:
 #futureCall:
 #  concurrencyLimit: 1 # Defaults to 1, a negative or null value removes the limit
 #  scanInterval: 5000 # Unit in milliseconds, defaults to 5000
+
