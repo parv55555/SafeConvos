@@ -12,12 +12,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:edgeguard_server/src/generated/false_positive_report.dart'
     as _ikgrqawu;
-import 'package:edgeguard_server/src/generated/future_calls.dart' as _i7k77h34;
 import 'package:edgeguard_server/src/generated/scam_report.dart' as _i5kk03o8;
 import 'package:serverpod/serverpod.dart' as _is;
 import '../endpoints/scam_endpoint.dart' as _iq50itqz;
 import '../greeting_endpoint.dart' as _ikvw90o4;
-export 'future_calls.dart' show ServerpodFutureCallsGetter;
 
 class Endpoints extends _is.EndpointDispatch {
   @override
@@ -144,10 +142,5 @@ class Endpoints extends _is.EndpointDispatch {
         )
       },
     );
-  }
-
-  @override
-  _is.FutureCallDispatch? get futureCalls {
-    return _i7k77h34.FutureCalls();
   }
 }

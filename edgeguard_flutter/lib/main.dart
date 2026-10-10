@@ -16,7 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   const serverUrlFromEnv = String.fromEnvironment('SERVER_URL');
-  final serverUrl = serverUrlFromEnv.isEmpty ? 'http://localhost:8080/' : serverUrlFromEnv;
+  final serverUrl = serverUrlFromEnv.isEmpty ? 'https://safeconvos.api.serverpod.space/' : serverUrlFromEnv;
   client = Client(serverUrl)..connectivityMonitor = FlutterConnectivityMonitor();
   
   bool hasAccepted = prefs.getBool('has_accepted_tc') ?? false;
@@ -46,4 +46,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:edgeguard_client/edgeguard_client.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
-var client = Client('http://localhost:8080/')..connectivityMonitor = FlutterConnectivityMonitor();
+var client = Client('https://safeconvos.api.serverpod.space/')..connectivityMonitor = FlutterConnectivityMonitor();
 
 void main() {
   runApp(const AdminApp());
@@ -195,3 +195,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
+

@@ -15,7 +15,6 @@ import 'dart:async' as _ida;
 import 'dart:io' as _idi;
 import 'package:edgeguard_server/src/generated/false_positive_report.dart'
     as _ikgrqawu;
-import 'package:edgeguard_server/src/generated/future_calls.dart' as _i7k77h34;
 import 'package:edgeguard_server/src/generated/greeting.dart' as _ij6ylotg;
 import 'package:edgeguard_server/src/generated/scam_report.dart' as _i5kk03o8;
 import 'package:serverpod/serverpod.dart' as _is;
@@ -153,8 +152,6 @@ void withServerpod(
 }
 
 class TestEndpoints {
-  late final futureCalls = _FutureCalls();
-
   late final _ScamEndpoint scam;
 
   late final _AdminDatasetEndpoint adminDataset;
@@ -182,10 +179,6 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
   }
-}
-
-class _FutureCalls {
-  late final birthdayReminder = _BirthdayReminderFutureCall();
 }
 
 class _ScamEndpoint {
@@ -386,23 +379,5 @@ class _GreetingEndpoint {
         await _localUniqueSession.close();
       }
     });
-  }
-}
-
-class _BirthdayReminderFutureCall {
-  Future<void> invoke(
-    _ist.TestSessionBuilder sessionBuilder,
-    _ij6ylotg.Greeting? object,
-  ) async {
-    var _localUniqueSession =
-        (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild();
-    try {
-      await _i7k77h34.BirthdayReminderInvokeFutureCall().invoke(
-        _localUniqueSession,
-        object,
-      );
-    } finally {
-      await _localUniqueSession.close();
-    }
   }
 }
