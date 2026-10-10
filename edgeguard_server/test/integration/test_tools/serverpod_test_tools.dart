@@ -7,19 +7,17 @@
 // ignore_for_file: public_member_api_docs
 // ignore_for_file: type_literal_in_constant_pattern
 // ignore_for_file: use_super_parameters
-// ignore_for_file: invalid_use_of_internal_member
+
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _ida;
-import 'dart:io' as _idi;
+import 'package:serverpod_test/serverpod_test.dart' as _i1;
+import 'package:serverpod/serverpod.dart' as _i2;
+import 'dart:async' as _i3;
+import 'package:edgeguard_server/src/generated/scam_report.dart' as _i4;
 import 'package:edgeguard_server/src/generated/false_positive_report.dart'
-    as _ikgrqawu;
-import 'package:edgeguard_server/src/generated/future_calls.dart' as _i7k77h34;
-import 'package:edgeguard_server/src/generated/greeting.dart' as _ij6ylotg;
-import 'package:edgeguard_server/src/generated/scam_report.dart' as _i5kk03o8;
-import 'package:serverpod/serverpod.dart' as _is;
-import 'package:serverpod_test/serverpod_test.dart' as _ist;
+    as _i5;
+import 'package:edgeguard_server/src/generated/greeting.dart' as _i6;
 import 'package:edgeguard_server/src/generated/protocol.dart';
 import 'package:edgeguard_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -43,9 +41,6 @@ export 'package:serverpod_test/serverpod_test_public_exports.dart';
 ///
 /// [enableSessionLogging] Whether session logging should be enabled. Defaults to `false`
 ///
-/// [ephemeralDatabase] Whether this group gets its own empty database, created when the group starts and dropped when it finishes. Defaults to `true`.
-/// Set this to `false` to use the database configured for [runMode], including a previously seeded database. [configOverride] can still replace that database. The configured database is not created or dropped, so groups that share it cannot run in parallel. [rollbackDatabase] still controls whether writes inside the group are rolled back.
-///
 /// [rollbackDatabase] Options for when to rollback the database during the test lifecycle.
 /// By default `withServerpod` does all database operations inside a transaction that is rolled back after each `test` case.
 /// Just like the following enum describes, the behavior of the automatic rollbacks can be configured:
@@ -67,94 +62,48 @@ export 'package:serverpod_test/serverpod_test_public_exports.dart';
 ///
 /// [serverpodLoggingMode] The logging mode used when creating Serverpod. Defaults to `ServerpodLoggingMode.normal`
 ///
-/// [serverpodStartTimeout] The timeout to use when starting Serverpod, which connects to the database among other things. Defaults to `Duration(seconds: 120)`.
-///
-/// [testServerOutputMode] Options for controlling test server output during test execution. Defaults to `TestServerOutputMode.normal`.
-/// ```dart
-/// /// Options for controlling test server output during test execution.
-/// enum TestServerOutputMode {
-///   /// Default mode - only stderr is printed (stdout suppressed).
-///   /// This hides normal startup/shutdown logs while preserving error messages.
-///   normal,
-///
-///   /// All logging - both stdout and stderr are printed.
-///   /// Useful for debugging when you need to see all server output.
-///   verbose,
-///
-///   /// No logging - both stdout and stderr are suppressed.
-///   /// Completely silent mode, useful when you don't want any server output.
-///   silent,
-/// }
-/// ```
-///
-/// [configOverride] A function to override the server configuration. This function is called with
-/// the default server configuration after it is loaded from the config/ directory
-/// and before it is used to start the server. Use this to override particular
-/// settings in the server configuration.
-///
-/// [databaseInterceptor] Optional interceptor that replaces the default database for each session.
-/// See [Serverpod.databaseInterceptor] for more information.
+/// [serverpodStartTimeout] The timeout to use when starting Serverpod, which connects to the database among other things. Defaults to `Duration(seconds: 30)`.
 ///
 /// [testGroupTagsOverride] By default Serverpod test tools tags the `withServerpod` test group with `"integration"`.
 /// This is to provide a simple way to only run unit or integration tests.
 /// This property allows this tag to be overridden to something else. Defaults to `['integration']`.
 ///
 /// [experimentalFeatures] Optionally specify experimental features. See [Serverpod] for more information.
-///
-/// [serverDirectory] The server package directory `config/<runMode>.yaml`, `config/passwords.yaml`,
-/// and `migrations/<module>/...` are resolved against. Defaults to
-/// [Directory.current] at the time the test boots. Pass this when the test
-/// isolate's cwd is not the server package root (e.g. running tests from a
-/// workspace parent directory) so config and migrations are still loaded
-/// from the right place.
-@_ist.isTestGroup
+@_i1.isTestGroup
 void withServerpod(
   String testGroupName,
-  _ist.TestClosure<TestEndpoints> testClosure, {
+  _i1.TestClosure<TestEndpoints> testClosure, {
   bool? applyMigrations,
-  _is.ServerpodConfig Function(_is.ServerpodConfig)? configOverride,
-  _is.DatabaseInterceptor? databaseInterceptor,
   bool? enableSessionLogging,
-  bool? ephemeralDatabase,
-  _is.ExperimentalFeatures? experimentalFeatures,
-  _ist.RollbackDatabase? rollbackDatabase,
+  _i2.ExperimentalFeatures? experimentalFeatures,
+  _i1.RollbackDatabase? rollbackDatabase,
   String? runMode,
-  _is.RuntimeParametersListBuilder? runtimeParametersBuilder,
-  _idi.Directory? serverDirectory,
-  _is.ServerpodLoggingMode? serverpodLoggingMode,
+  _i2.RuntimeParametersListBuilder? runtimeParametersBuilder,
+  _i2.ServerpodLoggingMode? serverpodLoggingMode,
   Duration? serverpodStartTimeout,
   List<String>? testGroupTagsOverride,
-  _ist.TestServerOutputMode? testServerOutputMode,
 }) {
-  _ist.buildWithServerpod<_InternalTestEndpoints>(
+  _i1.buildWithServerpod<_InternalTestEndpoints>(
     testGroupName,
-    _ist.TestServerpod(
+    _i1.TestServerpod(
       testEndpoints: _InternalTestEndpoints(),
       endpoints: Endpoints(),
       serializationManager: Protocol(),
       runMode: runMode,
       applyMigrations: applyMigrations,
-      ephemeralDatabase: ephemeralDatabase,
       isDatabaseEnabled: true,
       serverpodLoggingMode: serverpodLoggingMode,
-      testServerOutputMode: testServerOutputMode,
-      serverDirectory: serverDirectory,
       experimentalFeatures: experimentalFeatures,
-      configOverride: configOverride,
       runtimeParametersBuilder: runtimeParametersBuilder,
-      databaseInterceptor: databaseInterceptor,
     ),
     maybeRollbackDatabase: rollbackDatabase,
     maybeEnableSessionLogging: enableSessionLogging,
     maybeTestGroupTagsOverride: testGroupTagsOverride,
     maybeServerpodStartTimeout: serverpodStartTimeout,
-    maybeTestServerOutputMode: testServerOutputMode,
   )(testClosure);
 }
 
 class TestEndpoints {
-  late final futureCalls = _FutureCalls();
-
   late final _ScamEndpoint scam;
 
   late final _AdminDatasetEndpoint adminDataset;
@@ -163,11 +112,11 @@ class TestEndpoints {
 }
 
 class _InternalTestEndpoints extends TestEndpoints
-    implements _ist.InternalTestEndpoints {
+    implements _i1.InternalTestEndpoints {
   @override
   void initialize(
-    _is.SerializationManager serializationManager,
-    _is.EndpointDispatch endpoints,
+    _i2.SerializationManager serializationManager,
+    _i2.EndpointDispatch endpoints,
   ) {
     scam = _ScamEndpoint(
       endpoints,
@@ -184,27 +133,23 @@ class _InternalTestEndpoints extends TestEndpoints
   }
 }
 
-class _FutureCalls {
-  late final birthdayReminder = _BirthdayReminderFutureCall();
-}
-
 class _ScamEndpoint {
   _ScamEndpoint(
     this._endpointDispatch,
     this._serializationManager,
   );
 
-  final _is.EndpointDispatch _endpointDispatch;
+  final _i2.EndpointDispatch _endpointDispatch;
 
-  final _is.SerializationManager _serializationManager;
+  final _i2.SerializationManager _serializationManager;
 
-  _ida.Future<void> reportScam(
-    _ist.TestSessionBuilder sessionBuilder,
-    _i5kk03o8.ScamReport report,
+  _i3.Future<void> reportScam(
+    _i1.TestSessionBuilder sessionBuilder,
+    _i4.ScamReport report,
   ) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
         endpoint: 'scam',
         method: 'reportScam',
       );
@@ -213,13 +158,13 @@ class _ScamEndpoint {
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'scam',
           methodName: 'reportScam',
-          parameters: _ist.testObjectToJson({'report': report}),
+          parameters: _i1.testObjectToJson({'report': report}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _ida.Future<void>);
+        ) as _i3.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -227,13 +172,13 @@ class _ScamEndpoint {
     });
   }
 
-  _ida.Future<void> reportFalsePositive(
-    _ist.TestSessionBuilder sessionBuilder,
-    _ikgrqawu.FalsePositiveReport report,
+  _i3.Future<void> reportFalsePositive(
+    _i1.TestSessionBuilder sessionBuilder,
+    _i5.FalsePositiveReport report,
   ) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
         endpoint: 'scam',
         method: 'reportFalsePositive',
       );
@@ -242,13 +187,13 @@ class _ScamEndpoint {
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'scam',
           methodName: 'reportFalsePositive',
-          parameters: _ist.testObjectToJson({'report': report}),
+          parameters: _i1.testObjectToJson({'report': report}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _ida.Future<void>);
+        ) as _i3.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -263,15 +208,15 @@ class _AdminDatasetEndpoint {
     this._serializationManager,
   );
 
-  final _is.EndpointDispatch _endpointDispatch;
+  final _i2.EndpointDispatch _endpointDispatch;
 
-  final _is.SerializationManager _serializationManager;
+  final _i2.SerializationManager _serializationManager;
 
-  _ida.Future<List<String>> getVerifiedScamDataset(
-      _ist.TestSessionBuilder sessionBuilder) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+  _i3.Future<List<String>> getVerifiedScamDataset(
+      _i1.TestSessionBuilder sessionBuilder) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
         endpoint: 'adminDataset',
         method: 'getVerifiedScamDataset',
       );
@@ -280,13 +225,13 @@ class _AdminDatasetEndpoint {
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'adminDataset',
           methodName: 'getVerifiedScamDataset',
-          parameters: _ist.testObjectToJson({}),
+          parameters: _i1.testObjectToJson({}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _ida.Future<List<String>>);
+        ) as _i3.Future<List<String>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -294,11 +239,11 @@ class _AdminDatasetEndpoint {
     });
   }
 
-  _ida.Future<List<_i5kk03o8.ScamReport>> getAllScamReports(
-      _ist.TestSessionBuilder sessionBuilder) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+  _i3.Future<List<_i4.ScamReport>> getAllScamReports(
+      _i1.TestSessionBuilder sessionBuilder) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
         endpoint: 'adminDataset',
         method: 'getAllScamReports',
       );
@@ -307,13 +252,13 @@ class _AdminDatasetEndpoint {
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'adminDataset',
           methodName: 'getAllScamReports',
-          parameters: _ist.testObjectToJson({}),
+          parameters: _i1.testObjectToJson({}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _ida.Future<List<_i5kk03o8.ScamReport>>);
+        ) as _i3.Future<List<_i4.ScamReport>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -321,11 +266,11 @@ class _AdminDatasetEndpoint {
     });
   }
 
-  _ida.Future<List<_ikgrqawu.FalsePositiveReport>> getAllFalsePositives(
-      _ist.TestSessionBuilder sessionBuilder) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+  _i3.Future<List<_i5.FalsePositiveReport>> getAllFalsePositives(
+      _i1.TestSessionBuilder sessionBuilder) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
         endpoint: 'adminDataset',
         method: 'getAllFalsePositives',
       );
@@ -334,13 +279,13 @@ class _AdminDatasetEndpoint {
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'adminDataset',
           methodName: 'getAllFalsePositives',
-          parameters: _ist.testObjectToJson({}),
+          parameters: _i1.testObjectToJson({}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _ida.Future<List<_ikgrqawu.FalsePositiveReport>>);
+        ) as _i3.Future<List<_i5.FalsePositiveReport>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -355,17 +300,17 @@ class _GreetingEndpoint {
     this._serializationManager,
   );
 
-  final _is.EndpointDispatch _endpointDispatch;
+  final _i2.EndpointDispatch _endpointDispatch;
 
-  final _is.SerializationManager _serializationManager;
+  final _i2.SerializationManager _serializationManager;
 
-  _ida.Future<_ij6ylotg.Greeting> hello(
-    _ist.TestSessionBuilder sessionBuilder,
+  _i3.Future<_i6.Greeting> hello(
+    _i1.TestSessionBuilder sessionBuilder,
     String name,
   ) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
         endpoint: 'greeting',
         method: 'hello',
       );
@@ -374,35 +319,17 @@ class _GreetingEndpoint {
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'greeting',
           methodName: 'hello',
-          parameters: _ist.testObjectToJson({'name': name}),
+          parameters: _i1.testObjectToJson({'name': name}),
           serializationManager: _serializationManager,
         );
         var _localReturnValue = await (_localCallContext.method.call(
           _localUniqueSession,
           _localCallContext.arguments,
-        ) as _ida.Future<_ij6ylotg.Greeting>);
+        ) as _i3.Future<_i6.Greeting>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
       }
     });
-  }
-}
-
-class _BirthdayReminderFutureCall {
-  Future<void> invoke(
-    _ist.TestSessionBuilder sessionBuilder,
-    _ij6ylotg.Greeting? object,
-  ) async {
-    var _localUniqueSession =
-        (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild();
-    try {
-      await _i7k77h34.BirthdayReminderInvokeFutureCall().invoke(
-        _localUniqueSession,
-        object,
-      );
-    } finally {
-      await _localUniqueSession.close();
-    }
   }
 }

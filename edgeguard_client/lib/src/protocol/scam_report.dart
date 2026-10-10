@@ -7,13 +7,11 @@
 // ignore_for_file: public_member_api_docs
 // ignore_for_file: type_literal_in_constant_pattern
 // ignore_for_file: use_super_parameters
-// ignore_for_file: invalid_use_of_internal_member
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:serverpod_client/serverpod_client.dart' as _isc;
+import 'package:serverpod_client/serverpod_client.dart' as _i1;
 
-abstract class ScamReport
-    implements _isc.SerializableModel, _isc.ProtocolSerialization {
+abstract class ScamReport implements _i1.SerializableModel {
   ScamReport._({
     this.id,
     required this.phoneNumber,
@@ -36,7 +34,7 @@ abstract class ScamReport
       phoneNumber: jsonSerialization['phoneNumber'] as String,
       category: jsonSerialization['category'] as String,
       timestamp:
-          _isc.DateTimeJsonExtension.fromJson(jsonSerialization['timestamp']),
+          _i1.DateTimeJsonExtension.fromJson(jsonSerialization['timestamp']),
       city: jsonSerialization['city'] as String?,
     );
   }
@@ -56,7 +54,7 @@ abstract class ScamReport
 
   /// Returns a shallow copy of this [ScamReport]
   /// with some or all fields replaced by the given arguments.
-  @_isc.useResult
+  @_i1.useResult
   ScamReport copyWith({
     int? id,
     String? phoneNumber,
@@ -67,19 +65,6 @@ abstract class ScamReport
   @override
   Map<String, dynamic> toJson() {
     return {
-      '__className__': 'ScamReport',
-      if (id != null) 'id': id,
-      'phoneNumber': phoneNumber,
-      'category': category,
-      'timestamp': timestamp.toJson(),
-      if (city != null) 'city': city,
-    };
-  }
-
-  @override
-  Map<String, dynamic> toJsonForProtocol() {
-    return {
-      '__className__': 'ScamReport',
       if (id != null) 'id': id,
       'phoneNumber': phoneNumber,
       'category': category,
@@ -90,7 +75,7 @@ abstract class ScamReport
 
   @override
   String toString() {
-    return _isc.SerializationManager.encode(this);
+    return _i1.SerializationManager.encode(this);
   }
 }
 
@@ -113,7 +98,7 @@ class _ScamReportImpl extends ScamReport {
 
   /// Returns a shallow copy of this [ScamReport]
   /// with some or all fields replaced by the given arguments.
-  @_isc.useResult
+  @_i1.useResult
   @override
   ScamReport copyWith({
     Object? id = _Undefined,

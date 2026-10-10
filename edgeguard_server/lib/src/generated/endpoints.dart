@@ -7,147 +7,139 @@
 // ignore_for_file: public_member_api_docs
 // ignore_for_file: type_literal_in_constant_pattern
 // ignore_for_file: use_super_parameters
-// ignore_for_file: invalid_use_of_internal_member
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:serverpod/serverpod.dart' as _i1;
+import '../endpoints/scam_endpoint.dart' as _i2;
+import '../greeting_endpoint.dart' as _i3;
+import 'package:edgeguard_server/src/generated/scam_report.dart' as _i4;
 import 'package:edgeguard_server/src/generated/false_positive_report.dart'
-    as _ikgrqawu;
-import 'package:edgeguard_server/src/generated/future_calls.dart' as _i7k77h34;
-import 'package:edgeguard_server/src/generated/scam_report.dart' as _i5kk03o8;
-import 'package:serverpod/serverpod.dart' as _is;
-import '../endpoints/scam_endpoint.dart' as _iq50itqz;
-import '../greeting_endpoint.dart' as _ikvw90o4;
-export 'future_calls.dart' show ServerpodFutureCallsGetter;
+    as _i5;
 
-class Endpoints extends _is.EndpointDispatch {
+class Endpoints extends _i1.EndpointDispatch {
   @override
-  void initializeEndpoints(_is.Server server) {
-    var endpoints = <String, _is.Endpoint>{
-      'scam': _iq50itqz.ScamEndpoint()
+  void initializeEndpoints(_i1.Server server) {
+    var endpoints = <String, _i1.Endpoint>{
+      'scam': _i2.ScamEndpoint()
         ..initialize(
           server,
           'scam',
           null,
         ),
-      'adminDataset': _iq50itqz.AdminDatasetEndpoint()
+      'adminDataset': _i2.AdminDatasetEndpoint()
         ..initialize(
           server,
           'adminDataset',
           null,
         ),
-      'greeting': _ikvw90o4.GreetingEndpoint()
+      'greeting': _i3.GreetingEndpoint()
         ..initialize(
           server,
           'greeting',
           null,
         ),
     };
-    connectors['scam'] = _is.EndpointConnector(
+    connectors['scam'] = _i1.EndpointConnector(
       name: 'scam',
       endpoint: endpoints['scam']!,
       methodConnectors: {
-        'reportScam': _is.MethodConnector(
+        'reportScam': _i1.MethodConnector(
           name: 'reportScam',
           params: {
-            'report': _is.ParameterDescription(
+            'report': _i1.ParameterDescription(
               name: 'report',
-              type: _is.getType<_i5kk03o8.ScamReport>(),
+              type: _i1.getType<_i4.ScamReport>(),
               nullable: false,
             )
           },
           call: (
-            _is.Session session,
+            _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['scam'] as _iq50itqz.ScamEndpoint).reportScam(
+              (endpoints['scam'] as _i2.ScamEndpoint).reportScam(
             session,
             params['report'],
           ),
         ),
-        'reportFalsePositive': _is.MethodConnector(
+        'reportFalsePositive': _i1.MethodConnector(
           name: 'reportFalsePositive',
           params: {
-            'report': _is.ParameterDescription(
+            'report': _i1.ParameterDescription(
               name: 'report',
-              type: _is.getType<_ikgrqawu.FalsePositiveReport>(),
+              type: _i1.getType<_i5.FalsePositiveReport>(),
               nullable: false,
             )
           },
           call: (
-            _is.Session session,
+            _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['scam'] as _iq50itqz.ScamEndpoint).reportFalsePositive(
+              (endpoints['scam'] as _i2.ScamEndpoint).reportFalsePositive(
             session,
             params['report'],
           ),
         ),
       },
     );
-    connectors['adminDataset'] = _is.EndpointConnector(
+    connectors['adminDataset'] = _i1.EndpointConnector(
       name: 'adminDataset',
       endpoint: endpoints['adminDataset']!,
       methodConnectors: {
-        'getVerifiedScamDataset': _is.MethodConnector(
+        'getVerifiedScamDataset': _i1.MethodConnector(
           name: 'getVerifiedScamDataset',
           params: {},
           call: (
-            _is.Session session,
+            _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['adminDataset'] as _iq50itqz.AdminDatasetEndpoint)
+              (endpoints['adminDataset'] as _i2.AdminDatasetEndpoint)
                   .getVerifiedScamDataset(session),
         ),
-        'getAllScamReports': _is.MethodConnector(
+        'getAllScamReports': _i1.MethodConnector(
           name: 'getAllScamReports',
           params: {},
           call: (
-            _is.Session session,
+            _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['adminDataset'] as _iq50itqz.AdminDatasetEndpoint)
+              (endpoints['adminDataset'] as _i2.AdminDatasetEndpoint)
                   .getAllScamReports(session),
         ),
-        'getAllFalsePositives': _is.MethodConnector(
+        'getAllFalsePositives': _i1.MethodConnector(
           name: 'getAllFalsePositives',
           params: {},
           call: (
-            _is.Session session,
+            _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['adminDataset'] as _iq50itqz.AdminDatasetEndpoint)
+              (endpoints['adminDataset'] as _i2.AdminDatasetEndpoint)
                   .getAllFalsePositives(session),
         ),
       },
     );
-    connectors['greeting'] = _is.EndpointConnector(
+    connectors['greeting'] = _i1.EndpointConnector(
       name: 'greeting',
       endpoint: endpoints['greeting']!,
       methodConnectors: {
-        'hello': _is.MethodConnector(
+        'hello': _i1.MethodConnector(
           name: 'hello',
           params: {
-            'name': _is.ParameterDescription(
+            'name': _i1.ParameterDescription(
               name: 'name',
-              type: _is.getType<String>(),
+              type: _i1.getType<String>(),
               nullable: false,
             )
           },
           call: (
-            _is.Session session,
+            _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['greeting'] as _ikvw90o4.GreetingEndpoint).hello(
+              (endpoints['greeting'] as _i3.GreetingEndpoint).hello(
             session,
             params['name'],
           ),
         )
       },
     );
-  }
-
-  @override
-  _is.FutureCallDispatch? get futureCalls {
-    return _i7k77h34.FutureCalls();
   }
 }

@@ -7,13 +7,12 @@
 // ignore_for_file: public_member_api_docs
 // ignore_for_file: type_literal_in_constant_pattern
 // ignore_for_file: use_super_parameters
-// ignore_for_file: invalid_use_of_internal_member
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:serverpod/serverpod.dart' as _is;
+import 'package:serverpod/serverpod.dart' as _i1;
 
 abstract class ScamReport
-    implements _is.TableRow<int?>, _is.ProtocolSerialization {
+    implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
   ScamReport._({
     this.id,
     required this.phoneNumber,
@@ -36,7 +35,7 @@ abstract class ScamReport
       phoneNumber: jsonSerialization['phoneNumber'] as String,
       category: jsonSerialization['category'] as String,
       timestamp:
-          _is.DateTimeJsonExtension.fromJson(jsonSerialization['timestamp']),
+          _i1.DateTimeJsonExtension.fromJson(jsonSerialization['timestamp']),
       city: jsonSerialization['city'] as String?,
     );
   }
@@ -57,11 +56,11 @@ abstract class ScamReport
   String? city;
 
   @override
-  _is.Table<int?> get table => t;
+  _i1.Table<int?> get table => t;
 
   /// Returns a shallow copy of this [ScamReport]
   /// with some or all fields replaced by the given arguments.
-  @_is.useResult
+  @_i1.useResult
   ScamReport copyWith({
     int? id,
     String? phoneNumber,
@@ -72,7 +71,6 @@ abstract class ScamReport
   @override
   Map<String, dynamic> toJson() {
     return {
-      '__className__': 'ScamReport',
       if (id != null) 'id': id,
       'phoneNumber': phoneNumber,
       'category': category,
@@ -84,7 +82,6 @@ abstract class ScamReport
   @override
   Map<String, dynamic> toJsonForProtocol() {
     return {
-      '__className__': 'ScamReport',
       if (id != null) 'id': id,
       'phoneNumber': phoneNumber,
       'category': category,
@@ -98,11 +95,12 @@ abstract class ScamReport
   }
 
   static ScamReportIncludeList includeList({
-    _is.WhereExpressionBuilder<ScamReportTable>? where,
+    _i1.WhereExpressionBuilder<ScamReportTable>? where,
     int? limit,
     int? offset,
-    _is.OrderByBuilder<ScamReportTable>? orderBy,
-    _is.OrderByListBuilder<ScamReportTable>? orderByList,
+    _i1.OrderByBuilder<ScamReportTable>? orderBy,
+    bool orderDescending = false,
+    _i1.OrderByListBuilder<ScamReportTable>? orderByList,
     ScamReportInclude? include,
   }) {
     return ScamReportIncludeList._(
@@ -110,6 +108,7 @@ abstract class ScamReport
       limit: limit,
       offset: offset,
       orderBy: orderBy?.call(ScamReport.t),
+      orderDescending: orderDescending,
       orderByList: orderByList?.call(ScamReport.t),
       include: include,
     );
@@ -117,7 +116,7 @@ abstract class ScamReport
 
   @override
   String toString() {
-    return _is.SerializationManager.encode(this);
+    return _i1.SerializationManager.encode(this);
   }
 }
 
@@ -140,7 +139,7 @@ class _ScamReportImpl extends ScamReport {
 
   /// Returns a shallow copy of this [ScamReport]
   /// with some or all fields replaced by the given arguments.
-  @_is.useResult
+  @_i1.useResult
   @override
   ScamReport copyWith({
     Object? id = _Undefined,
@@ -159,64 +158,36 @@ class _ScamReportImpl extends ScamReport {
   }
 }
 
-class ScamReportUpdateTable extends _is.UpdateTable<ScamReportTable> {
-  ScamReportUpdateTable(super.table);
-
-  _is.ColumnValue<String, String> phoneNumber(String value) => _is.ColumnValue(
-        table.phoneNumber,
-        value,
-      );
-
-  _is.ColumnValue<String, String> category(String value) => _is.ColumnValue(
-        table.category,
-        value,
-      );
-
-  _is.ColumnValue<DateTime, DateTime> timestamp(DateTime value) =>
-      _is.ColumnValue(
-        table.timestamp,
-        value,
-      );
-
-  _is.ColumnValue<String, String> city(String? value) => _is.ColumnValue(
-        table.city,
-        value,
-      );
-}
-
-class ScamReportTable extends _is.Table<int?> {
+class ScamReportTable extends _i1.Table<int?> {
   ScamReportTable({super.tableRelation}) : super(tableName: 'scam_report') {
-    updateTable = ScamReportUpdateTable(this);
-    phoneNumber = _is.ColumnString(
+    phoneNumber = _i1.ColumnString(
       'phoneNumber',
       this,
     );
-    category = _is.ColumnString(
+    category = _i1.ColumnString(
       'category',
       this,
     );
-    timestamp = _is.ColumnDateTime(
+    timestamp = _i1.ColumnDateTime(
       'timestamp',
       this,
     );
-    city = _is.ColumnString(
+    city = _i1.ColumnString(
       'city',
       this,
     );
   }
 
-  late final ScamReportUpdateTable updateTable;
+  late final _i1.ColumnString phoneNumber;
 
-  late final _is.ColumnString phoneNumber;
+  late final _i1.ColumnString category;
 
-  late final _is.ColumnString category;
+  late final _i1.ColumnDateTime timestamp;
 
-  late final _is.ColumnDateTime timestamp;
-
-  late final _is.ColumnString city;
+  late final _i1.ColumnString city;
 
   @override
-  List<_is.Column> get columns => [
+  List<_i1.Column> get columns => [
         id,
         phoneNumber,
         category,
@@ -225,22 +196,23 @@ class ScamReportTable extends _is.Table<int?> {
       ];
 }
 
-class ScamReportInclude extends _is.IncludeObject {
+class ScamReportInclude extends _i1.IncludeObject {
   ScamReportInclude._();
 
   @override
-  Map<String, _is.Include?> get includes => {};
+  Map<String, _i1.Include?> get includes => {};
 
   @override
-  _is.Table<int?> get table => ScamReport.t;
+  _i1.Table<int?> get table => ScamReport.t;
 }
 
-class ScamReportIncludeList extends _is.IncludeList {
+class ScamReportIncludeList extends _i1.IncludeList {
   ScamReportIncludeList._({
-    _is.WhereExpressionBuilder<ScamReportTable>? where,
+    _i1.WhereExpressionBuilder<ScamReportTable>? where,
     super.limit,
     super.offset,
     super.orderBy,
+    super.orderDescending,
     super.orderByList,
     super.include,
   }) {
@@ -248,10 +220,10 @@ class ScamReportIncludeList extends _is.IncludeList {
   }
 
   @override
-  Map<String, _is.Include?> get includes => include?.includes ?? {};
+  Map<String, _i1.Include?> get includes => include?.includes ?? {};
 
   @override
-  _is.Table<int?> get table => ScamReport.t;
+  _i1.Table<int?> get table => ScamReport.t;
 }
 
 class ScamReportRepository {
@@ -280,25 +252,23 @@ class ScamReportRepository {
   /// );
   /// ```
   Future<List<ScamReport>> find(
-    _is.DatabaseSession session, {
-    _is.WhereExpressionBuilder<ScamReportTable>? where,
+    _i1.Session session, {
+    _i1.WhereExpressionBuilder<ScamReportTable>? where,
     int? limit,
     int? offset,
-    _is.OrderByBuilder<ScamReportTable>? orderBy,
-    _is.OrderByListBuilder<ScamReportTable>? orderByList,
-    _is.Transaction? transaction,
-    _is.LockMode? lockMode,
-    _is.LockBehavior? lockBehavior,
+    _i1.OrderByBuilder<ScamReportTable>? orderBy,
+    bool orderDescending = false,
+    _i1.OrderByListBuilder<ScamReportTable>? orderByList,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.find<ScamReport>(
       where: where?.call(ScamReport.t),
       orderBy: orderBy?.call(ScamReport.t),
       orderByList: orderByList?.call(ScamReport.t),
+      orderDescending: orderDescending,
       limit: limit,
       offset: offset,
       transaction: transaction,
-      lockMode: lockMode,
-      lockBehavior: lockBehavior,
     );
   }
 
@@ -320,39 +290,33 @@ class ScamReportRepository {
   /// );
   /// ```
   Future<ScamReport?> findFirstRow(
-    _is.DatabaseSession session, {
-    _is.WhereExpressionBuilder<ScamReportTable>? where,
+    _i1.Session session, {
+    _i1.WhereExpressionBuilder<ScamReportTable>? where,
     int? offset,
-    _is.OrderByBuilder<ScamReportTable>? orderBy,
-    _is.OrderByListBuilder<ScamReportTable>? orderByList,
-    _is.Transaction? transaction,
-    _is.LockMode? lockMode,
-    _is.LockBehavior? lockBehavior,
+    _i1.OrderByBuilder<ScamReportTable>? orderBy,
+    bool orderDescending = false,
+    _i1.OrderByListBuilder<ScamReportTable>? orderByList,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.findFirstRow<ScamReport>(
       where: where?.call(ScamReport.t),
       orderBy: orderBy?.call(ScamReport.t),
       orderByList: orderByList?.call(ScamReport.t),
+      orderDescending: orderDescending,
       offset: offset,
       transaction: transaction,
-      lockMode: lockMode,
-      lockBehavior: lockBehavior,
     );
   }
 
   /// Finds a single [ScamReport] by its [id] or null if no such row exists.
   Future<ScamReport?> findById(
-    _is.DatabaseSession session,
+    _i1.Session session,
     int id, {
-    _is.Transaction? transaction,
-    _is.LockMode? lockMode,
-    _is.LockBehavior? lockBehavior,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.findById<ScamReport>(
       id,
       transaction: transaction,
-      lockMode: lockMode,
-      lockBehavior: lockBehavior,
     );
   }
 
@@ -362,26 +326,14 @@ class ScamReportRepository {
   ///
   /// This is an atomic operation, meaning that if one of the rows fails to
   /// insert, none of the rows will be inserted.
-  ///
-  /// If [ignoreConflicts] is set to `true`, rows that conflict with existing
-  /// rows are silently skipped, and only the successfully inserted rows are
-  /// returned.
-  ///
-  /// If [noReturn] is set to `true`, the inserted rows are not read back from
-  /// the database and an empty list is returned. This avoids the overhead of
-  /// transferring and deserializing the rows when the result is not needed.
   Future<List<ScamReport>> insert(
-    _is.DatabaseSession session,
+    _i1.Session session,
     List<ScamReport> rows, {
-    _is.Transaction? transaction,
-    bool ignoreConflicts = false,
-    bool noReturn = false,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.insert<ScamReport>(
       rows,
       transaction: transaction,
-      ignoreConflicts: ignoreConflicts,
-      noReturn: noReturn,
     );
   }
 
@@ -389,81 +341,12 @@ class ScamReportRepository {
   ///
   /// The returned [ScamReport] will have its `id` field set.
   Future<ScamReport> insertRow(
-    _is.DatabaseSession session,
+    _i1.Session session,
     ScamReport row, {
-    _is.Transaction? transaction,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.insertRow<ScamReport>(
       row,
-      transaction: transaction,
-    );
-  }
-
-  /// Upserts all [ScamReport]s in the list and returns the resulting rows.
-  ///
-  /// If a row conflicts on the given [conflictColumns], the existing row is
-  /// updated with the new values. Otherwise, a new row is inserted.
-  ///
-  /// If [updateColumns] is provided, only those columns will be updated on
-  /// conflict. If null, all non-conflict, non-id columns are updated.
-  ///
-  /// If [updateWhere] is provided, the update only applies to rows matching the
-  /// given expression. Conflicting rows that don't match are skipped and not
-  /// returned, so the resulting list may be shorter than [rows].
-  ///
-  /// The returned [ScamReport]s will have their `id` fields set.
-  ///
-  /// This is an atomic operation, meaning that if one of the rows fails,
-  /// none of the rows will be affected.
-  ///
-  /// If [noReturn] is set to `true`, the resulting rows are not read back from
-  /// the database and an empty list is returned. This avoids the overhead of
-  /// transferring and deserializing the rows when the result is not needed.
-  Future<List<ScamReport>> upsert(
-    _is.DatabaseSession session,
-    List<ScamReport> rows, {
-    required _is.ColumnSelections<ScamReportTable> conflictColumns,
-    _is.ColumnSelections<ScamReportTable>? updateColumns,
-    _is.WhereExpressionBuilder<ScamReportTable>? updateWhere,
-    _is.Transaction? transaction,
-    bool noReturn = false,
-  }) async {
-    return session.db.upsert<ScamReport>(
-      rows,
-      conflictColumns: conflictColumns(ScamReport.t),
-      updateColumns: updateColumns?.call(ScamReport.t),
-      updateWhere: updateWhere?.call(ScamReport.t),
-      transaction: transaction,
-      noReturn: noReturn,
-    );
-  }
-
-  /// Upserts a single [ScamReport] and returns the resulting row.
-  ///
-  /// If the row conflicts on the given [conflictColumns], the existing row is
-  /// updated. Otherwise, a new row is inserted.
-  ///
-  /// If [updateColumns] is provided, only those columns will be updated on
-  /// conflict. If null, all non-conflict, non-id columns are updated.
-  ///
-  /// If [updateWhere] is provided, the update only applies when the existing
-  /// row matches the expression. Returns `null` if no row was affected — for
-  /// example when [updateWhere] does not match the conflicting row.
-  ///
-  /// The returned [ScamReport] will have its `id` field set.
-  Future<ScamReport?> upsertRow(
-    _is.DatabaseSession session,
-    ScamReport row, {
-    required _is.ColumnSelections<ScamReportTable> conflictColumns,
-    _is.ColumnSelections<ScamReportTable>? updateColumns,
-    _is.WhereExpressionBuilder<ScamReportTable>? updateWhere,
-    _is.Transaction? transaction,
-  }) async {
-    return session.db.upsertRow<ScamReport>(
-      row,
-      conflictColumns: conflictColumns(ScamReport.t),
-      updateColumns: updateColumns?.call(ScamReport.t),
-      updateWhere: updateWhere?.call(ScamReport.t),
       transaction: transaction,
     );
   }
@@ -473,22 +356,16 @@ class ScamReportRepository {
   /// all columns.
   /// This is an atomic operation, meaning that if one of the rows fails to
   /// update, none of the rows will be updated.
-  ///
-  /// If [noReturn] is set to `true`, the updated rows are not read back from
-  /// the database and an empty list is returned. This avoids the overhead of
-  /// transferring and deserializing the rows when the result is not needed.
   Future<List<ScamReport>> update(
-    _is.DatabaseSession session,
+    _i1.Session session,
     List<ScamReport> rows, {
-    _is.ColumnSelections<ScamReportTable>? columns,
-    _is.Transaction? transaction,
-    bool noReturn = false,
+    _i1.ColumnSelections<ScamReportTable>? columns,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.update<ScamReport>(
       rows,
       columns: columns?.call(ScamReport.t),
       transaction: transaction,
-      noReturn: noReturn,
     );
   }
 
@@ -496,10 +373,10 @@ class ScamReportRepository {
   /// Optionally, a list of [columns] can be provided to only update those
   /// columns. Defaults to all columns.
   Future<ScamReport> updateRow(
-    _is.DatabaseSession session,
+    _i1.Session session,
     ScamReport row, {
-    _is.ColumnSelections<ScamReportTable>? columns,
-    _is.Transaction? transaction,
+    _i1.ColumnSelections<ScamReportTable>? columns,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.updateRow<ScamReport>(
       row,
@@ -508,83 +385,25 @@ class ScamReportRepository {
     );
   }
 
-  /// Updates a single [ScamReport] by its [id] with the specified [columnValues].
-  /// Returns the updated row or null if no row with the given id exists.
-  Future<ScamReport?> updateById(
-    _is.DatabaseSession session,
-    int id, {
-    required _is.ColumnValueListBuilder<ScamReportUpdateTable> columnValues,
-    _is.Transaction? transaction,
-  }) async {
-    return session.db.updateById<ScamReport>(
-      id,
-      columnValues: columnValues(ScamReport.t.updateTable),
-      transaction: transaction,
-    );
-  }
-
-  /// Updates all [ScamReport]s matching the [where] expression with the specified [columnValues].
-  /// Returns the list of updated rows.
-  ///
-  /// If [noReturn] is set to `true`, the updated rows are not read back from
-  /// the database and an empty list is returned. This avoids the overhead of
-  /// transferring and deserializing the rows when the result is not needed.
-  Future<List<ScamReport>> updateWhere(
-    _is.DatabaseSession session, {
-    required _is.ColumnValueListBuilder<ScamReportUpdateTable> columnValues,
-    required _is.WhereExpressionBuilder<ScamReportTable> where,
-    int? limit,
-    int? offset,
-    _is.OrderByBuilder<ScamReportTable>? orderBy,
-    _is.OrderByListBuilder<ScamReportTable>? orderByList,
-    _is.Transaction? transaction,
-    bool noReturn = false,
-  }) async {
-    return session.db.updateWhere<ScamReport>(
-      columnValues: columnValues(ScamReport.t.updateTable),
-      where: where(ScamReport.t),
-      limit: limit,
-      offset: offset,
-      orderBy: orderBy?.call(ScamReport.t),
-      orderByList: orderByList?.call(ScamReport.t),
-      transaction: transaction,
-      noReturn: noReturn,
-    );
-  }
-
   /// Deletes all [ScamReport]s in the list and returns the deleted rows.
-  ///
-  /// To specify the order of the returned rows use [orderBy] or [orderByList]
-  /// when sorting by multiple columns.
-  ///
   /// This is an atomic operation, meaning that if one of the rows fail to
   /// be deleted, none of the rows will be deleted.
-  ///
-  /// If [noReturn] is set to `true`, the deleted rows are not read back from
-  /// the database and an empty list is returned. This avoids the overhead of
-  /// transferring and deserializing the rows when the result is not needed.
   Future<List<ScamReport>> delete(
-    _is.DatabaseSession session,
+    _i1.Session session,
     List<ScamReport> rows, {
-    _is.OrderByBuilder<ScamReportTable>? orderBy,
-    _is.OrderByListBuilder<ScamReportTable>? orderByList,
-    _is.Transaction? transaction,
-    bool noReturn = false,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.delete<ScamReport>(
       rows,
-      orderBy: orderBy?.call(ScamReport.t),
-      orderByList: orderByList?.call(ScamReport.t),
       transaction: transaction,
-      noReturn: noReturn,
     );
   }
 
   /// Deletes a single [ScamReport].
   Future<ScamReport> deleteRow(
-    _is.DatabaseSession session,
+    _i1.Session session,
     ScamReport row, {
-    _is.Transaction? transaction,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.deleteRow<ScamReport>(
       row,
@@ -593,57 +412,28 @@ class ScamReportRepository {
   }
 
   /// Deletes all rows matching the [where] expression.
-  ///
-  /// To specify the order of the returned rows use [orderBy] or [orderByList]
-  /// when sorting by multiple columns.
-  ///
-  /// If [noReturn] is set to `true`, the deleted rows are not read back from
-  /// the database and an empty list is returned. This avoids the overhead of
-  /// transferring and deserializing the rows when the result is not needed.
   Future<List<ScamReport>> deleteWhere(
-    _is.DatabaseSession session, {
-    required _is.WhereExpressionBuilder<ScamReportTable> where,
-    _is.OrderByBuilder<ScamReportTable>? orderBy,
-    _is.OrderByListBuilder<ScamReportTable>? orderByList,
-    _is.Transaction? transaction,
-    bool noReturn = false,
+    _i1.Session session, {
+    required _i1.WhereExpressionBuilder<ScamReportTable> where,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.deleteWhere<ScamReport>(
       where: where(ScamReport.t),
-      orderBy: orderBy?.call(ScamReport.t),
-      orderByList: orderByList?.call(ScamReport.t),
       transaction: transaction,
-      noReturn: noReturn,
     );
   }
 
   /// Counts the number of rows matching the [where] expression. If omitted,
   /// will return the count of all rows in the table.
   Future<int> count(
-    _is.DatabaseSession session, {
-    _is.WhereExpressionBuilder<ScamReportTable>? where,
+    _i1.Session session, {
+    _i1.WhereExpressionBuilder<ScamReportTable>? where,
     int? limit,
-    _is.Transaction? transaction,
+    _i1.Transaction? transaction,
   }) async {
     return session.db.count<ScamReport>(
       where: where?.call(ScamReport.t),
       limit: limit,
-      transaction: transaction,
-    );
-  }
-
-  /// Acquires row-level locks on [ScamReport] rows matching the [where] expression.
-  Future<void> lockRows(
-    _is.DatabaseSession session, {
-    required _is.WhereExpressionBuilder<ScamReportTable> where,
-    required _is.LockMode lockMode,
-    required _is.Transaction transaction,
-    _is.LockBehavior lockBehavior = _is.LockBehavior.wait,
-  }) async {
-    return session.db.lockRows<ScamReport>(
-      where: where(ScamReport.t),
-      lockMode: lockMode,
-      lockBehavior: lockBehavior,
       transaction: transaction,
     );
   }
