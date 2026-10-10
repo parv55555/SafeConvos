@@ -1,0 +1,16 @@
+# ninja log v5
+64	1232	8126214035790859	CMakeFiles/fasttext_jni.dir/fasttext/matrix.cc.o	22f192929d48ef85
+158	1517	8126214038671000	CMakeFiles/fasttext_jni.dir/fasttext/vector.cc.o	bb68ed7b4e50fa2f
+148	1735	8126214040829019	CMakeFiles/fasttext_jni.dir/fasttext/utils.cc.o	4fd56e5aa2f3aba5
+126	1772	8126214041219024	CMakeFiles/fasttext_jni.dir/fasttext/quantmatrix.cc.o	3aa4c42f62b4fffa
+137	1866	8126214042229022	CMakeFiles/fasttext_jni.dir/fasttext/productquantizer.cc.o	96d09ce9a90aa621
+101	2026	8126214043779020	CMakeFiles/fasttext_jni.dir/fasttext/model.cc.o	9f28893887140354
+30	2094	8126214044441030	CMakeFiles/fasttext_jni.dir/fasttext/densematrix.cc.o	c0deef980142141e
+76	2211	8126214045483057	CMakeFiles/fasttext_jni.dir/fasttext/args.cc.o	99a7c61adbf81172
+88	2354	8126214046923099	CMakeFiles/fasttext_jni.dir/fasttext_jni.cpp.o	da3064f02bc86277
+50	2690	8126214050245899	CMakeFiles/fasttext_jni.dir/fasttext/loss.cc.o	9a969658fb2944ca
+113	2954	8126214053007109	CMakeFiles/fasttext_jni.dir/fasttext/meter.cc.o	a979ac8dc9cd6914
+0	3091	8126214054301791	CMakeFiles/fasttext_jni.dir/fasttext/dictionary.cc.o	2ceb26dd491a3c18
+14	3119	8126214054749752	CMakeFiles/fasttext_jni.dir/fasttext/autotune.cc.o	111d1c0d707eec30
+44	4083	8126214063953350	CMakeFiles/fasttext_jni.dir/fasttext/fasttext.cc.o	456bfade31101f34
+4083	4286	8126214066317970	D:/edgeguard/edgeguard_flutter/build/app/intermediates/cxx/Debug/2r60141q/obj/armeabi-v7a/libfasttext_jni.so	8a8f93a0882120b2

@@ -1,0 +1,7 @@
+class: ScamReport
+table: scam_report
+fields:
+  phoneNumber: String
+  category: String
+  timestamp: DateTime
+  city: String?

@@ -1,0 +1,44 @@
+services:
+  # Development services
+  postgres:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "8090:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: edgeguard
+      POSTGRES_PASSWORD: "eDQvh7TD05c5rzR8k7iVpGSOm5JLNK78"
+    volumes:
+      - edgeguard_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6.2.6
+    ports:
+      - "8091:6379"
+    command: redis-server --requirepass "-6PKl6fMq5xuNto4BwoRoYso6T2D9zeo"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+  # Test services
+  postgres_test:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "9090:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: edgeguard_test
+      POSTGRES_PASSWORD: "keA2cQEb3d_EDw3pZYzS7Xa6eQd830WW"
+    volumes:
+      - edgeguard_test_data:/var/lib/postgresql/data
+
+  redis_test:
+    image: redis:6.2.6
+    ports:
+      - "9091:6379"
+    command: redis-server --requirepass "Ru8ReXbxEvN66oN2riGVQCZPRpC1mMja"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+volumes:
+  edgeguard_data:
+  edgeguard_test_data:

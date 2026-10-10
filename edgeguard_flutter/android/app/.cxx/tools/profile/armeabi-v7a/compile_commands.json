@@ -1,0 +1,72 @@
+[
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext_jni.cpp.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext_jni.cpp",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext_jni.cpp"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\args.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\args.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\args.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\autotune.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\autotune.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\autotune.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\densematrix.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\densematrix.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\densematrix.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\dictionary.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\dictionary.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\dictionary.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\fasttext.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\fasttext.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\fasttext.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\loss.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\loss.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\loss.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\matrix.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\matrix.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\matrix.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\meter.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\meter.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\meter.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\model.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\model.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\model.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\productquantizer.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\productquantizer.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\productquantizer.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\quantmatrix.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\quantmatrix.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\quantmatrix.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\utils.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\utils.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\utils.cc"
+},
+{
+  "directory": "D:/edgeguard/edgeguard_flutter/android/app/.cxx/Debug/2r60141q/armeabi-v7a",
+  "command": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi26 --sysroot=C:/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dfasttext_jni_EXPORTS -ID:/edgeguard/edgeguard_flutter/android/app/src/main/cpp/fasttext -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles\\fasttext_jni.dir\\fasttext\\vector.cc.o -c D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\vector.cc",
+  "file": "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\fasttext\\vector.cc"
+}
+]

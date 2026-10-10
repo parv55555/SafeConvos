@@ -1,0 +1,9 @@
+scam:
+  - reportScam:
+  - reportFalsePositive:
+adminDataset:
+  - getVerifiedScamDataset:
+  - getAllScamReports:
+  - getAllFalsePositives:
+greeting:
+  - hello:

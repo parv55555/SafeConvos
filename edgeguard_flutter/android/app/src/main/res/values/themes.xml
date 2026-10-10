@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- programmed by parv -->
+<resources>
+
+    <style name="Theme.EdgeGuardAI" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>

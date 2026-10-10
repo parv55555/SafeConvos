@@ -1,0 +1,39 @@
+{
+  "buildFiles": [
+    "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "D:\\edgeguard\\edgeguard_flutter\\android\\app\\.cxx\\Debug\\2r60141q\\arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "D:\\edgeguard\\edgeguard_flutter\\android\\app\\.cxx\\Debug\\2r60141q\\arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "fasttext_jni::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "fasttext_jni",
+      "output": "D:\\edgeguard\\edgeguard_flutter\\build\\app\\intermediates\\cxx\\Debug\\2r60141q\\obj\\arm64-v8a\\libfasttext_jni.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+      "cppCompilerExecutable": "C:\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp",
+    "cc"
+  ]
+}

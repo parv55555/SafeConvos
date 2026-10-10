@@ -1,0 +1,62 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "com.google.devtools.ksp"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace = "com.example.edgeguard_flutter"
+    compileSdk = 35
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    defaultConfig {
+        applicationId = "com.example.edgeguard_flutter"
+        minSdk = 26
+        targetSdk = 35
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+dependencies {
+    implementation 'org.tensorflow:tensorflow-lite-task-text:0.4.4'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.4.4'
+    implementation "androidx.core:core-ktx:1.12.0"
+    implementation "androidx.room:room-runtime:2.6.1"
+    implementation "androidx.room:room-ktx:2.6.1"
+    ksp "androidx.room:room-compiler:2.6.1"
+}
+
+
+
+
+
+

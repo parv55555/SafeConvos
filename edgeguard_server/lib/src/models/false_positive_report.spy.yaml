@@ -1,0 +1,5 @@
+class: FalsePositiveReport
+table: false_positive_report
+fields:
+  messageContent: String
+  timestamp: DateTime

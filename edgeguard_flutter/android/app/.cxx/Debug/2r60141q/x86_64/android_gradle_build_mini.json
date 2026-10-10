@@ -1,0 +1,27 @@
+{
+  "buildFiles": [
+    "D:\\edgeguard\\edgeguard_flutter\\android\\app\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "D:\\edgeguard\\edgeguard_flutter\\android\\app\\.cxx\\Debug\\2r60141q\\x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "D:\\edgeguard\\edgeguard_flutter\\android\\app\\.cxx\\Debug\\2r60141q\\x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "fasttext_jni::@6890427a1f51a3e7e1df": {
+      "artifactName": "fasttext_jni",
+      "abi": "x86_64",
+      "output": "D:\\edgeguard\\edgeguard_flutter\\build\\app\\intermediates\\cxx\\Debug\\2r60141q\\obj\\x86_64\\libfasttext_jni.so",
+      "runtimeFiles": []
+    }
+  }
+}

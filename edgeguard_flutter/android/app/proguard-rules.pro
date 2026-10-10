@@ -1,0 +1,4 @@
+-keep class org.tensorflow.lite.** { *; }
+-dontwarn org.tensorflow.lite.**
+-keep class com.google.auto.value.** { *; }
+-dontwarn com.google.auto.value.**

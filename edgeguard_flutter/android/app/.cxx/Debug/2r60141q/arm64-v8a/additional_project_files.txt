@@ -1,0 +1,15 @@
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\aligned.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\args.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\autotune.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\densematrix.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\dictionary.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\fasttext.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\loss.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\matrix.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\meter.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\model.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\productquantizer.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\quantmatrix.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\real.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\utils.h
+D:\edgeguard\edgeguard_flutter\android\app\src\main\cpp\fasttext\vector.h
