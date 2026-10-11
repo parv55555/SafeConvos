@@ -75,6 +75,28 @@ class EndpointAdminDataset extends _isc.EndpointRef {
         'getAllFalsePositives',
         {},
       );
+
+  /// Clears all past threat intelligence entries (scam reports and false positives)
+  _ida.Future<void> clearAllReports() => caller.callServerEndpoint<void>(
+        'adminDataset',
+        'clearAllReports',
+        {},
+      );
+
+  /// Deletes a single scam report by ID
+  _ida.Future<void> deleteScamReport(int id) => caller.callServerEndpoint<void>(
+        'adminDataset',
+        'deleteScamReport',
+        {'id': id},
+      );
+
+  /// Deletes a single false positive report by ID
+  _ida.Future<void> deleteFalsePositive(int id) =>
+      caller.callServerEndpoint<void>(
+        'adminDataset',
+        'deleteFalsePositive',
+        {'id': id},
+      );
 }
 
 /// This is an example endpoint that returns a greeting message through

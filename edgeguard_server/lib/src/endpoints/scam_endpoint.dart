@@ -56,5 +56,20 @@ class AdminDatasetEndpoint extends Endpoint {
       orderBy: (t) => t.timestamp,
     );
   }
-}
 
+  /// Clears all past threat intelligence entries (scam reports and false positives)
+  Future<void> clearAllReports(Session session) async {
+    await session.db.unsafeQuery('DELETE FROM scam_report;');
+    await session.db.unsafeQuery('DELETE FROM false_positive_report;');
+  }
+
+  /// Deletes a single scam report by ID
+  Future<void> deleteScamReport(Session session, int id) async {
+    await ScamReport.db.deleteWhere(session, where: (t) => t.id.equals(id));
+  }
+
+  /// Deletes a single false positive report by ID
+  Future<void> deleteFalsePositive(Session session, int id) async {
+    await FalsePositiveReport.db.deleteWhere(session, where: (t) => t.id.equals(id));
+  }
+}

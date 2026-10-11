@@ -353,10 +353,139 @@ class AdminDashboardState extends State<AdminDashboard> {
         isLoading = false;
       });
     } catch (e) {
-      print('Error fetching data: ');
+      print('Error fetching data: $e');
       setState(() {
         isLoading = false;
       });
+    }
+  }
+
+  Future<void> _confirmClearAll() async {
+    final bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF1E293B),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.redAccent),
+              SizedBox(width: 8),
+              Text('Clear All Records?', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          content: const Text(
+            'This will permanently delete all past scam reports and false positives from the live cloud database. This action cannot be undone.',
+            style: TextStyle(color: Colors.white70, fontSize: 14),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: const Text('Cancel', style: TextStyle(color: Colors.white60)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: const Text('Clear All', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm == true) {
+      setState(() => isLoading = true);
+      try {
+        await client.adminDataset.clearAllReports();
+        setState(() {
+          scams.clear();
+          falsePositives.clear();
+          isLoading = false;
+        });
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.green,
+              content: Text('Dashboard wiped successfully. Threat intelligence is clean!'),
+            ),
+          );
+        }
+      } catch (e) {
+        setState(() => isLoading = false);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.redAccent,
+              content: Text('Failed to clear dashboard: $e'),
+            ),
+          );
+        }
+      }
+    }
+  }
+
+  Future<void> _deleteScam(ScamReport item) async {
+    final bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: const Color(0xFF1E293B),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text('Delete Scam Entry?', style: TextStyle(color: Colors.white, fontSize: 18)),
+        content: Text('Are you sure you want to delete report for ${item.phoneNumber}?', style: const TextStyle(color: Colors.white70)),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel', style: TextStyle(color: Colors.white60))),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Delete', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true && item.id != null) {
+      try {
+        await client.adminDataset.deleteScamReport(item.id!);
+        setState(() {
+          scams.removeWhere((s) => s.id == item.id);
+        });
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(backgroundColor: Colors.indigo, content: Text('Scam entry deleted.')),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(backgroundColor: Colors.redAccent, content: Text('Error: $e')),
+          );
+        }
+      }
+    }
+  }
+
+  Future<void> _deleteFalsePositive(FalsePositiveReport item) async {
+    if (item.id != null) {
+      try {
+        await client.adminDataset.deleteFalsePositive(item.id!);
+        setState(() {
+          falsePositives.removeWhere((fp) => fp.id == item.id);
+        });
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(backgroundColor: Colors.indigo, content: Text('False positive entry deleted.')),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(backgroundColor: Colors.redAccent, content: Text('Error: $e')),
+          );
+        }
+      }
     }
   }
 
@@ -377,12 +506,19 @@ class AdminDashboardState extends State<AdminDashboard> {
           ),
           actions: [
             IconButton(
+              tooltip: 'Refresh Data',
               icon: const Icon(Icons.refresh),
               onPressed: () {
                 setState(() => isLoading = true);
                 _fetchData();
               },
-            )
+            ),
+            IconButton(
+              tooltip: 'Clear Past Entries',
+              icon: const Icon(Icons.delete_sweep_rounded, color: Colors.redAccent),
+              onPressed: (scams.isNotEmpty || falsePositives.isNotEmpty) ? _confirmClearAll : null,
+            ),
+            const SizedBox(width: 8),
           ],
         ),
         body: Container(
@@ -408,7 +544,21 @@ class AdminDashboardState extends State<AdminDashboard> {
 
   Widget _buildScamList(List<ScamReport> list) {
     if (list.isEmpty) {
-      return const Center(child: Text('No scam reports yet.', style: TextStyle(color: Colors.white70)));
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.shield, size: 64, color: Colors.indigoAccent.withOpacity(0.5)),
+              const SizedBox(height: 16),
+              const Text('No scam threats recorded', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              const Text('The threat intelligence database is clean and active.', style: TextStyle(color: Colors.white54, fontSize: 14)),
+            ],
+          ),
+        ),
+      );
     }
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -450,17 +600,27 @@ class AdminDashboardState extends State<AdminDashboard> {
                         ),
                       ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.redAccent.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.redAccent.withOpacity(0.6)),
-                      ),
-                      child: Text(
-                        item.category.toUpperCase(),
-                        style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 11),
-                      ),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.redAccent.withOpacity(0.6)),
+                          ),
+                          child: Text(
+                            item.category.toUpperCase(),
+                            style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 11),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          tooltip: 'Delete Entry',
+                          icon: const Icon(Icons.delete_outline, size: 20, color: Colors.redAccent),
+                          onPressed: () => _deleteScam(item),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -515,7 +675,21 @@ class AdminDashboardState extends State<AdminDashboard> {
 
   Widget _buildFPList(List<FalsePositiveReport> list) {
     if (list.isEmpty) {
-      return const Center(child: Text('No false positives reported.', style: TextStyle(color: Colors.white70)));
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.check_circle_outline, size: 64, color: Colors.greenAccent.withOpacity(0.5)),
+              const SizedBox(height: 16),
+              const Text('No false positives reported', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              const Text('No users have reported false positives.', style: TextStyle(color: Colors.white54, fontSize: 14)),
+            ],
+          ),
+        ),
+      );
     }
     return ListView.builder(
       padding: const EdgeInsets.all(16),
@@ -553,17 +727,27 @@ class AdminDashboardState extends State<AdminDashboard> {
                         ),
                       ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.greenAccent.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.greenAccent.withOpacity(0.6)),
-                      ),
-                      child: const Text(
-                        'USER FEEDBACK',
-                        style: TextStyle(color: Colors.greenAccent, fontWeight: FontWeight.bold, fontSize: 11),
-                      ),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.greenAccent.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Colors.greenAccent.withOpacity(0.6)),
+                          ),
+                          child: const Text(
+                            'USER FEEDBACK',
+                            style: TextStyle(color: Colors.greenAccent, fontWeight: FontWeight.bold, fontSize: 11),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          tooltip: 'Delete Entry',
+                          icon: const Icon(Icons.delete_outline, size: 20, color: Colors.white60),
+                          onPressed: () => _deleteFalsePositive(item),
+                        ),
+                      ],
                     ),
                   ],
                 ),

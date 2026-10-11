@@ -116,6 +116,54 @@ class Endpoints extends _is.EndpointDispatch {
               (endpoints['adminDataset'] as _iq50itqz.AdminDatasetEndpoint)
                   .getAllFalsePositives(session),
         ),
+        'clearAllReports': _is.MethodConnector(
+          name: 'clearAllReports',
+          params: {},
+          call: (
+            _is.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['adminDataset'] as _iq50itqz.AdminDatasetEndpoint)
+                  .clearAllReports(session),
+        ),
+        'deleteScamReport': _is.MethodConnector(
+          name: 'deleteScamReport',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _is.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['adminDataset'] as _iq50itqz.AdminDatasetEndpoint)
+                  .deleteScamReport(
+            session,
+            params['id'],
+          ),
+        ),
+        'deleteFalsePositive': _is.MethodConnector(
+          name: 'deleteFalsePositive',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _is.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['adminDataset'] as _iq50itqz.AdminDatasetEndpoint)
+                  .deleteFalsePositive(
+            session,
+            params['id'],
+          ),
+        ),
       },
     );
     connectors['greeting'] = _is.EndpointConnector(
