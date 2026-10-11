@@ -1,27 +1,19 @@
 package com.parv.safetexts
 
+import android.app.ActivityOptions
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
-import android.graphics.Color
-import android.graphics.PixelFormat
-import android.graphics.drawable.GradientDrawable
+import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
-import android.view.Gravity
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
-import java.util.Locale
 
 class ScamAnalyzer private constructor(private val context: Context) {
     private val database = AppDatabase.getDatabase(context)
@@ -77,7 +69,7 @@ class ScamAnalyzer private constructor(private val context: Context) {
             // De-duplication check for persistent storage
             val existingMessage = database.messageDao().getMessage(message.sender, message.content)
             if (existingMessage != null) {
-                Log.d("ScamAnalyzer", "Duplicate message found:  - ")
+                Log.d("ScamAnalyzer", "Duplicate message found: ${message.sender} - ${message.content}")
                 if (existingMessage.analysisResult == "Scam" || existingMessage.analysisResult == "Alert") {
                     withContext(Dispatchers.Main) {
                         onDuplicateScam?.invoke(existingMessage)
@@ -122,196 +114,78 @@ class ScamAnalyzer private constructor(private val context: Context) {
                 }
             }
             
-            Log.d("ScamAnalyzer", "TFLite Result for '': $result ($scamProbability)")
+            Log.d("ScamAnalyzer", "TFLite Result for '${message.content}': $result ($scamProbability)")
         } catch (e: Throwable) {
-            Log.e("ScamAnalyzer", "TFLite Inference failed: ")
+            Log.e("ScamAnalyzer", "TFLite Inference failed: ${e.message}")
             val errorMsg = e.message?.take(30) ?: e.javaClass.simpleName
             database.messageDao().updateMessage(message.copy(analysisResult = "Failed: $errorMsg"))
         }
     }
 
     fun showScamWarningOverlay(message: MessageEntity, isApk: Boolean = false, isFakeCredit: Boolean = false, isBrowserSpam: Boolean = false) {
+        if (ScamAlertActivity.isAlertActive || OverlayUtils.isOverlayShowing) {
+            Log.d("ScamAnalyzer", "Overlay/Alert already active. Skipping.")
+            return
+        }
+
         if (!Settings.canDrawOverlays(context)) {
             Log.w("ScamAnalyzer", "Overlay permission not granted. Showing fallback notification.")
             showScamWarningNotification(message)
             return
         }
 
-        if (OverlayUtils.isOverlayShowing) {
-            Log.d("ScamAnalyzer", "Overlay is already showing. Skipping scam warning.")
-            return
-        }
         OverlayUtils.isOverlayShowing = true
 
-        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val layoutParams = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        try {
+            val intent = Intent(context, ScamAlertActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                putExtra(ScamAlertActivity.EXTRA_ALERT_TYPE, ScamAlertActivity.TYPE_SCAM)
+                putExtra(ScamAlertActivity.EXTRA_SENDER, message.sender)
+                putExtra(ScamAlertActivity.EXTRA_CONTENT, message.content)
+                putExtra(ScamAlertActivity.EXTRA_APP_NAME, message.appName)
+                putExtra(ScamAlertActivity.EXTRA_IS_APK, isApk)
+                putExtra(ScamAlertActivity.EXTRA_IS_FAKE_CREDIT, isFakeCredit)
+                putExtra(ScamAlertActivity.EXTRA_IS_BROWSER_SPAM, isBrowserSpam)
+                putExtra(ScamAlertActivity.EXTRA_MESSAGE_ID, message.id)
+            }
+
+            // Post High-Priority FullScreenIntent Notification
+            val pendingIntent = PendingIntent.getActivity(
+                context,
+                message.id,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Notification.Builder(context, "SCAM_ALERTS")
             } else {
                 @Suppress("DEPRECATION")
-                WindowManager.LayoutParams.TYPE_PHONE
-            },
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
-            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
-            WindowManager.LayoutParams.FLAG_DIM_BEHIND,
-            PixelFormat.TRANSLUCENT
-        ).apply {
-            dimAmount = 0.65f
-            windowAnimations = android.R.style.Animation_Dialog
-        }
-
-        val outerContainer = android.widget.FrameLayout(context).apply {
-            setPadding(48, 48, 48, 48)
-        }
-
-        val overlayView = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-            val bgDrawable = GradientDrawable().apply {
-                setColor(Color.parseColor("#FFF0F0")) 
-                cornerRadius = 48f
-                setStroke(4, Color.parseColor("#FF5252")) 
+                Notification.Builder(context)
             }
-            background = bgDrawable
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                elevation = 32f
-            }
-            setPadding(64, 64, 64, 64)
-            val params = android.widget.FrameLayout.LayoutParams(
-                android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
-                android.widget.FrameLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                gravity = Gravity.CENTER
-            }
-            this.layoutParams = params
-        }
+                .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                .setContentTitle(if (isBrowserSpam) "⚠️ PHISHING ALERT" else "🚨 SCAM ALERT: ${message.sender}")
+                .setContentText(message.content.take(60))
+                .setStyle(Notification.BigTextStyle().bigText("From: " + message.sender + " (" + message.appName + ")\n\n" + message.content))
+                .setPriority(Notification.PRIORITY_MAX)
+                .setCategory(Notification.CATEGORY_ALARM)
+                .setFullScreenIntent(pendingIntent, true)
+                .setAutoCancel(true)
+                .build()
+            notificationManager.notify(message.id, notification)
 
-        val titleView = TextView(context).apply {
-            text = if (isBrowserSpam) "⚠️ PHISHING ALERT" else "⚠️ SCAM ALERT"
-            textSize = 24f
-            setTextColor(Color.parseColor("#D32F2F")) 
-            setTypeface(null, android.graphics.Typeface.BOLD)
-            gravity = Gravity.CENTER
-            setPadding(0, 0, 0, 16)
-        }
-
-        val senderView = TextView(context).apply {
-            if (isBrowserSpam) {
-                text = "You got a phishing notification from ${message.sender}, do not click on that notification."
-                textSize = 16f
-            } else {
-                text = "From: ${message.sender} (${message.appName})"
-                textSize = 18f
-            }
-            setTextColor(Color.parseColor("#212121"))
-            setTypeface(null, android.graphics.Typeface.BOLD)
-            gravity = Gravity.CENTER
-            setPadding(0, 0, 0, 32)
-        }
-
-        val dismissButton = Button(context).apply {
-            text = "DISMISS"
-            setTextColor(Color.WHITE)
-            setTypeface(null, android.graphics.Typeface.BOLD)
-            val btnDrawable = GradientDrawable().apply {
-                setColor(Color.parseColor("#FF5252"))
-                cornerRadius = 24f
-            }
-            background = btnDrawable
-            setPadding(32, 24, 32, 24)
-            setOnClickListener {
+            val options = ActivityOptions.makeBasic()
+            if (Build.VERSION.SDK_INT >= 34) {
                 try {
-                    windowManager.removeView(outerContainer)
-                } catch (e: Exception) {
-                    Log.e("ScamAnalyzer", "Error removing overlay", e)
-                } finally {
-                    OverlayUtils.isOverlayShowing = false
-                }
+                    val method = options.javaClass.getMethod("setPendingIntentBackgroundActivityStartMode", Int::class.javaPrimitiveType)
+                    method.invoke(options, 1)
+                } catch (e: Throwable) {}
             }
-        }
-
-        val notScamButton = Button(context).apply {
-            text = "NOT A SCAM"
-            setTextColor(Color.WHITE)
-            setTypeface(null, android.graphics.Typeface.BOLD)
-            val btnDrawable = GradientDrawable().apply {
-                setColor(Color.parseColor("#4CAF50"))
-                cornerRadius = 24f
-            }
-            background = btnDrawable
-            setPadding(32, 24, 32, 24)
-            setOnClickListener {
-                try {
-                    windowManager.removeView(outerContainer)
-                } catch (e: Exception) {
-                    Log.e("ScamAnalyzer", "Error removing overlay", e)
-                } finally {
-                    OverlayUtils.isOverlayShowing = false
-                }
-                
-                // Mark as FALSE_POSITIVE in database
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        val db = AppDatabase.getDatabase(context)
-                        val msg = db.messageDao().getMessage(message.sender, message.content)
-                        if (msg != null) {
-                            val updatedMsg = msg.copy(analysisResult = "FALSE_POSITIVE")
-                            db.messageDao().updateMessage(updatedMsg)
-                        }
-                    } catch (e: Exception) {
-                        Log.e("ScamAnalyzer", "Failed to update false positive in DB", e)
-                    }
-                }
-            }
-        }
-
-        val btnLayout = LinearLayout(context).apply {
-            orientation = LinearLayout.HORIZONTAL
-            gravity = Gravity.CENTER
-            addView(dismissButton)
-            val space = android.view.View(context).apply {
-                setLayoutParams(LinearLayout.LayoutParams(32, 1))
-            }
-            addView(space)
-            addView(notScamButton)
-        }
-
-        overlayView.addView(titleView)
-        overlayView.addView(senderView)
-        
-        if (isApk) {
-            val apkWarningView = TextView(context).apply {
-                text = "⚠️ DO NOT download & open this file! It might hack your phone & bank account."
-                textSize = 18f
-                setTextColor(Color.parseColor("#D32F2F"))
-                setTypeface(null, android.graphics.Typeface.BOLD)
-                gravity = Gravity.CENTER
-                setPadding(0, 0, 0, 32)
-            }
-            overlayView.addView(apkWarningView)
-        }
-        
-        if (isFakeCredit) {
-            val fakeCreditWarningView = TextView(context).apply {
-                text = "⚠️ You got a fake message , AMOUNT HAS NOT BEEN CREDITED TO YOUR ACCOUNT!"
-                textSize = 18f
-                setTextColor(Color.parseColor("#D32F2F"))
-                setTypeface(null, android.graphics.Typeface.BOLD)
-                gravity = Gravity.CENTER
-                setPadding(0, 0, 0, 32)
-            }
-            overlayView.addView(fakeCreditWarningView)
-        }
-        
-        overlayView.addView(btnLayout)
-        outerContainer.addView(overlayView)
-
-        try {
-            windowManager.addView(outerContainer, layoutParams)
+            context.startActivity(intent, options.toBundle())
         } catch (e: Exception) {
-            Log.e("ScamAnalyzer", "Failed to add overlay view: ${e.message}")
+            Log.e("ScamAnalyzer", "Failed to launch ScamAlertActivity: ${e.message}", e)
+            showScamWarningNotification(message)
+            OverlayUtils.isOverlayShowing = false
         }
     }
 
@@ -333,7 +207,7 @@ class ScamAnalyzer private constructor(private val context: Context) {
             .setSmallIcon(android.R.drawable.ic_dialog_alert)
             .setContentTitle("⚠️ SCAM WARNING: ${message.sender}")
             .setContentText("\"$snippet\"")
-            .setStyle(Notification.BigTextStyle().bigText("From: ${message.sender} (${message.appName})\n\n${message.content}"))
+            .setStyle(Notification.BigTextStyle().bigText("From: " + message.sender + " (" + message.appName + ")\n\n" + message.content))
             .setPriority(Notification.PRIORITY_HIGH)
             .setDefaults(Notification.DEFAULT_ALL)
             .setAutoCancel(true)
