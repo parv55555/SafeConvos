@@ -37,12 +37,16 @@ class MainActivity: FlutterActivity() {
     override fun onResume() {
         super.onResume()
         val filter = IntentFilter("com.parv.safetexts.NOT_A_SCAM")
-        registerReceiver(notScamReceiver, filter)
+        ContextCompat.registerReceiver(this, notScamReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
     }
 
     override fun onPause() {
         super.onPause()
-        unregisterReceiver(notScamReceiver)
+        try {
+            unregisterReceiver(notScamReceiver)
+        } catch (e: Exception) {
+            // ignore if not registered
+        }
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
