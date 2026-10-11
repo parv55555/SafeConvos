@@ -361,6 +361,16 @@ class AdminDashboardState extends State<AdminDashboard> {
   }
 
   Future<void> _confirmClearAll() async {
+    if (scams.isEmpty && falsePositives.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.indigo,
+          content: Text('The Threat Intelligence Dashboard is already completely clean.'),
+        ),
+      );
+      return;
+    }
+
     final bool? confirm = await showDialog<bool>(
       context: context,
       builder: (BuildContext ctx) {
@@ -369,13 +379,13 @@ class AdminDashboardState extends State<AdminDashboard> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: const Row(
             children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.redAccent),
-              SizedBox(width: 8),
+              Icon(Icons.warning_amber_rounded, color: Colors.redAccent, size: 28),
+              SizedBox(width: 10),
               Text('Clear All Records?', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
             ],
           ),
           content: const Text(
-            'This will permanently delete all past scam reports and false positives from the live cloud database. This action cannot be undone.',
+            'This will permanently delete all past scam reports and false positive submissions from the cloud intelligence database. This action cannot be undone.',
             style: TextStyle(color: Colors.white70, fontSize: 14),
           ),
           actions: [
@@ -385,11 +395,12 @@ class AdminDashboardState extends State<AdminDashboard> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent,
+                backgroundColor: const Color(0xFFDC2626),
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
               onPressed: () => Navigator.of(ctx).pop(true),
-              child: const Text('Clear All', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              child: const Text('Clear All Now', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
             ),
           ],
         );
@@ -409,7 +420,7 @@ class AdminDashboardState extends State<AdminDashboard> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: Colors.green,
-              content: Text('Dashboard wiped successfully. Threat intelligence is clean!'),
+              content: Text('Dashboard wiped successfully! Threat intelligence is now clean.'),
             ),
           );
         }
@@ -438,7 +449,7 @@ class AdminDashboardState extends State<AdminDashboard> {
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel', style: TextStyle(color: Colors.white60))),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFDC2626)),
             onPressed: () => Navigator.pop(ctx, true),
             child: const Text('Delete', style: TextStyle(color: Colors.white)),
           ),
@@ -505,6 +516,21 @@ class AdminDashboardState extends State<AdminDashboard> {
             ],
           ),
           actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 6.0),
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFDC2626),
+                  foregroundColor: Colors.white,
+                  elevation: 2,
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 0),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                icon: const Icon(Icons.delete_sweep, size: 18),
+                label: const Text('Clear Dashboard', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                onPressed: _confirmClearAll,
+              ),
+            ),
             IconButton(
               tooltip: 'Refresh Data',
               icon: const Icon(Icons.refresh),
@@ -512,11 +538,6 @@ class AdminDashboardState extends State<AdminDashboard> {
                 setState(() => isLoading = true);
                 _fetchData();
               },
-            ),
-            IconButton(
-              tooltip: 'Clear Past Entries',
-              icon: const Icon(Icons.delete_sweep_rounded, color: Colors.redAccent),
-              onPressed: (scams.isNotEmpty || falsePositives.isNotEmpty) ? _confirmClearAll : null,
             ),
             const SizedBox(width: 8),
           ],
