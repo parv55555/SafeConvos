@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static const platform = MethodChannel('com.parv.safetexts/bridge');
   bool isAllGranted = false;
+  Map<dynamic, dynamic> currentPerms = {};
   List<dynamic> messages = [];
   String searchQuery = '';
 
@@ -39,13 +40,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Future<void> _checkPermissions() async {
     try {
       final Map<dynamic, dynamic> perms = await platform.invokeMethod('checkPermissions');
+      currentPerms = perms;
       bool allGranted = perms['isAccessibilityEnabled'] == true &&
           perms['isNotificationListenerEnabled'] == true &&
           perms['isOverlayPermissionGranted'] == true &&
           perms['isBatteryOptimized'] == true &&
-          perms['isContactsPermissionGranted'] == true &&
-          perms['isCallLogPermissionGranted'] == true &&
-          perms['isPhoneStatePermissionGranted'] == true;
+          perms['isUsageStatsEnabled'] == true;
 
       setState(() {
         isAllGranted = allGranted;
@@ -66,21 +66,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         messages = msgs;
       });
 
-              for (var msg in msgs) {
-          String analysis = msg['analysisResult'] ?? '';
-          if (analysis.toLowerCase().contains('scam') || analysis.toLowerCase().contains('alert')) {
-            _silentSyncToServerpod(msg['sender'], analysis);
-          } else if (analysis == "FALSE_POSITIVE") {
-            _silentSyncFalsePositiveToServerpod(msg['id'].toString(), msg['content']);
-          }
+      for (var msg in msgs) {
+        String analysis = msg['analysisResult'] ?? '';
+        if (analysis.toLowerCase().contains('scam') || analysis.toLowerCase().contains('alert')) {
+          _silentSyncToServerpod(msg['sender'], analysis);
+        } else if (analysis == "FALSE_POSITIVE") {
+          _silentSyncFalsePositiveToServerpod(msg['id'].toString(), msg['content']);
         }
-      } on PlatformException catch (e) {
+      }
+    } on PlatformException catch (e) {
       print("Failed to get messages: ${e.message}");
     }
   }
 
-    Future<void> _silentSyncFalsePositiveToServerpod(String msgId, String content) async {
-    String key = 'fp_synced_';
+  Future<void> _silentSyncFalsePositiveToServerpod(String msgId, String content) async {
+    String key = 'fp_synced_$msgId';
     bool alreadySynced = prefs.getBool(key) ?? false;
     if (!alreadySynced) {
       try {
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           timestamp: DateTime.now().toUtc(),
         ));
         await prefs.setBool(key, true);
-        print("Successfully synced False Positive for ID: ");
+        print("Successfully synced False Positive for ID: $msgId");
       } catch (e) {
         print("Failed to sync False Positive to Serverpod: $e");
       }
@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         IconButton(icon: const Icon(Icons.delete), onPressed: () {}),
                       IconButton(
                         icon: const Icon(Icons.settings),
-                        onPressed: () => Navigator.pushNamed(context, '/permissions').then((_) => _checkPermissions()),
+                        onPressed: () => Navigator.pushNamed(context, '/permissions', arguments: currentPerms).then((_) => _checkPermissions()),
                       ),
                     ],
                   )
@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           width: double.infinity,
           height: 56,
           child: FilledButton(
-            onPressed: () => Navigator.pushNamed(context, '/permissions').then((_) => _checkPermissions()),
+            onPressed: () => Navigator.pushNamed(context, '/permissions', arguments: currentPerms).then((_) => _checkPermissions()),
             style: FilledButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
             child: const Text('Activate Protection', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ),
@@ -241,5 +241,3 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 }
-
-

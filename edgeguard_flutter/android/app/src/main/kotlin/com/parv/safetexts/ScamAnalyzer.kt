@@ -257,8 +257,8 @@ class ScamAnalyzer private constructor(private val context: Context) {
                         val db = AppDatabase.getDatabase(context)
                         val msg = db.messageDao().getMessage(message.sender, message.content)
                         if (msg != null) {
-                            msg.analysisResult = "FALSE_POSITIVE"
-                            db.messageDao().updateMessage(msg)
+                            val updatedMsg = msg.copy(analysisResult = "FALSE_POSITIVE")
+                            db.messageDao().updateMessage(updatedMsg)
                         }
                     } catch (e: Exception) {
                         Log.e("ScamAnalyzer", "Failed to update false positive in DB", e)
@@ -272,7 +272,7 @@ class ScamAnalyzer private constructor(private val context: Context) {
             gravity = Gravity.CENTER
             addView(dismissButton)
             val space = android.view.View(context).apply {
-                layoutParams = LinearLayout.LayoutParams(32, 1)
+                setLayoutParams(LinearLayout.LayoutParams(32, 1))
             }
             addView(space)
             addView(notScamButton)

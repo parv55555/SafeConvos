@@ -10,6 +10,7 @@ import android.os.PowerManager
 import android.app.AppOpsManager
 import android.os.Build
 import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.Manifest
 import io.flutter.embedding.android.FlutterActivity
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "com.parv.safetexts/bridge"
 
-        private var methodChannel: MethodChannel? = null
+    private var methodChannel: MethodChannel? = null
 
     private val notScamReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -89,6 +90,27 @@ class MainActivity: FlutterActivity() {
                         "overlay" -> startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${context.packageName}")))
                         "battery" -> startActivity(Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:${context.packageName}")))
                         "usage" -> startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+                        "contacts" -> {
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CONTACTS), 101)
+                            } else {
+                                startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}")))
+                            }
+                        }
+                        "callLog" -> {
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_CALL_LOG), 102)
+                            } else {
+                                startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}")))
+                            }
+                        }
+                        "phoneState" -> {
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_PHONE_STATE), 103)
+                            } else {
+                                startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${context.packageName}")))
+                            }
+                        }
                     }
                     result.success(true)
                 }
@@ -137,4 +159,3 @@ class MainActivity: FlutterActivity() {
         return mode == AppOpsManager.MODE_ALLOWED
     }
 }
-

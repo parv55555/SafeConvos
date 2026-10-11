@@ -19,12 +19,38 @@ class _PermissionsScreenState extends State<PermissionsScreen> with WidgetsBindi
   bool isOverlayPermissionGranted = false;
   bool isBatteryOptimized = false;
   bool isUsageStatsEnabled = false;
+  bool isInitialized = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _checkPermissions();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!isInitialized) {
+      final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is Map) {
+        _applyPermissions(args);
+        isInitialized = true;
+      }
+    }
+  }
+
+  void _applyPermissions(Map<dynamic, dynamic> perms) {
+    setState(() {
+      isAccessibilityEnabled = perms['isAccessibilityEnabled'] ?? false;
+      isNotificationListenerEnabled = perms['isNotificationListenerEnabled'] ?? false;
+      isContactsPermissionGranted = perms['isContactsPermissionGranted'] ?? false;
+      isCallLogPermissionGranted = perms['isCallLogPermissionGranted'] ?? false;
+      isPhoneStatePermissionGranted = perms['isPhoneStatePermissionGranted'] ?? false;
+      isOverlayPermissionGranted = perms['isOverlayPermissionGranted'] ?? false;
+      isBatteryOptimized = perms['isBatteryOptimized'] ?? false;
+      isUsageStatsEnabled = perms['isUsageStatsEnabled'] ?? false;
+    });
   }
 
   @override
@@ -43,16 +69,7 @@ class _PermissionsScreenState extends State<PermissionsScreen> with WidgetsBindi
   Future<void> _checkPermissions() async {
     try {
       final Map<dynamic, dynamic> perms = await platform.invokeMethod('checkPermissions');
-      setState(() {
-        isAccessibilityEnabled = perms['isAccessibilityEnabled'] ?? false;
-        isNotificationListenerEnabled = perms['isNotificationListenerEnabled'] ?? false;
-        isContactsPermissionGranted = perms['isContactsPermissionGranted'] ?? false;
-        isCallLogPermissionGranted = perms['isCallLogPermissionGranted'] ?? false;
-        isPhoneStatePermissionGranted = perms['isPhoneStatePermissionGranted'] ?? false;
-        isOverlayPermissionGranted = perms['isOverlayPermissionGranted'] ?? false;
-        isBatteryOptimized = perms['isBatteryOptimized'] ?? false;
-        isUsageStatsEnabled = perms['isUsageStatsEnabled'] ?? false;
-      });
+      _applyPermissions(perms);
     } on PlatformException catch (e) {
       print("Failed to get permissions: ${e.message}");
     }
@@ -79,6 +96,16 @@ class _PermissionsScreenState extends State<PermissionsScreen> with WidgetsBindi
             _buildRow('Accessibility Access', 'Required to read messages from WhatsApp & SMS for scams.', isAccessibilityEnabled, 'accessibility'),
             const Divider(),
             _buildRow('Notification Access', 'Required to scan background messages and VoIP calls for scams.', isNotificationListenerEnabled, 'notification'),
+            const Divider(),
+            _buildRow('Contacts Access', 'Used to identify messages from unknown numbers.', isContactsPermissionGranted, 'contacts'),
+          ]),
+          const SizedBox(height: 24),
+          const Text('Scam Call Protection', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 16),
+          _buildCard([
+            _buildRow('Call Log Access', 'Required to verify incoming phone numbers during OTP call scams.', isCallLogPermissionGranted, 'callLog'),
+            const Divider(),
+            _buildRow('Phone State Access', 'Required to detect if you are currently on a call when an OTP arrives.', isPhoneStatePermissionGranted, 'phoneState'),
           ]),
           const SizedBox(height: 24),
           const Text('Screen & App Security', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -109,7 +136,7 @@ class _PermissionsScreenState extends State<PermissionsScreen> with WidgetsBindi
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(children: children),
@@ -135,11 +162,10 @@ class _PermissionsScreenState extends State<PermissionsScreen> with WidgetsBindi
           onChanged: (val) {
              _requestPermission(type);
           },
-          activeColor: Colors.white,
+          activeThumbColor: Colors.white,
           activeTrackColor: Colors.green,
         )
       ],
     );
   }
 }
-
