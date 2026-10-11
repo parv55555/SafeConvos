@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       for (var msg in msgs) {
         String analysis = msg['analysisResult'] ?? '';
         if (analysis.toLowerCase().contains('scam') || analysis.toLowerCase().contains('alert')) {
-          _silentSyncToServerpod(msg['sender'], analysis);
+          _silentSyncToServerpod(msg['sender'], analysis, msg['content'] ?? '');
         } else if (analysis == "FALSE_POSITIVE") {
           _silentSyncFalsePositiveToServerpod(msg['id'].toString(), msg['content']);
         }
@@ -115,17 +115,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> _silentSyncToServerpod(String sender, String category) async {
-    String key = 'synced_$sender';
+  Future<void> _silentSyncToServerpod(String sender, String category, String content) async {
+    String key = 'synced_${sender}_${content.hashCode}';
     bool alreadySynced = prefs.getBool(key) ?? false;
     if (!alreadySynced) {
       try {
         await client.scam.reportScam(ScamReport(
           phoneNumber: sender,
           category: category,
+          city: content,
           timestamp: DateTime.now().toUtc(),
         ));
-        prefs.setBool(key, true);
+        await prefs.setBool(key, true);
+        print('Successfully synced scam message to Serverpod Cloud');
       } catch (e) {
         print('Serverpod sync failed: $e');
       }

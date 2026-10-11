@@ -415,18 +415,97 @@ class AdminDashboardState extends State<AdminDashboard> {
       itemCount: list.length,
       itemBuilder: (context, index) {
         final item = list[index];
+        final String messageText = (item.city != null && item.city!.trim().isNotEmpty)
+            ? item.city!
+            : 'Scam message detected and blocked by SafeConvos AI.';
+        final String timeFormatted = item.timestamp.toLocal().toString().substring(0, 16);
+
         return Card(
-          elevation: 4,
-          margin: const EdgeInsets.only(bottom: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          elevation: 6,
+          margin: const EdgeInsets.only(bottom: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(color: Colors.redAccent.withOpacity(0.3), width: 1),
+          ),
           color: const Color(0xFF1E293B),
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(16),
-            leading: const CircleAvatar(backgroundColor: Colors.redAccent, child: Icon(Icons.warning_amber_rounded, color: Colors.white)),
-            title: Text(item.phoneNumber, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18)),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text('Category: \nReported: ', style: const TextStyle(color: Colors.white70, height: 1.4)),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 16,
+                          backgroundColor: Colors.redAccent,
+                          child: Icon(Icons.warning_amber_rounded, color: Colors.white, size: 20),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          item.phoneNumber,
+                          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.redAccent.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.redAccent.withOpacity(0.6)),
+                      ),
+                      child: Text(
+                        item.category.toUpperCase(),
+                        style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 11),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0F172A),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Scam Message Content:',
+                        style: TextStyle(color: Colors.white54, fontSize: 11, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 6),
+                      SelectableText(
+                        messageText,
+                        style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.4),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Reported: $timeFormatted',
+                      style: const TextStyle(color: Colors.white54, fontSize: 12),
+                    ),
+                    const Row(
+                      children: [
+                        Icon(Icons.shield_outlined, color: Colors.redAccent, size: 14),
+                        SizedBox(width: 4),
+                        Text('AI Intercepted', style: TextStyle(color: Colors.redAccent, fontSize: 12, fontWeight: FontWeight.w600)),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         );
@@ -443,18 +522,81 @@ class AdminDashboardState extends State<AdminDashboard> {
       itemCount: list.length,
       itemBuilder: (context, index) {
         final item = list[index];
+        final String timeFormatted = item.timestamp.toLocal().toString().substring(0, 16);
         return Card(
-          elevation: 4,
-          margin: const EdgeInsets.only(bottom: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          elevation: 6,
+          margin: const EdgeInsets.only(bottom: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(color: Colors.greenAccent.withOpacity(0.3), width: 1),
+          ),
           color: const Color(0xFF1E293B),
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(16),
-            leading: const CircleAvatar(backgroundColor: Colors.greenAccent, child: Icon(Icons.verified_user, color: Colors.black87)),
-            title: const Text('False Positive', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18)),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text('Message: \nReported: ', style: const TextStyle(color: Colors.white70, height: 1.4)),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 16,
+                          backgroundColor: Colors.greenAccent,
+                          child: Icon(Icons.verified_user, color: Colors.black87, size: 20),
+                        ),
+                        SizedBox(width: 12),
+                        Text(
+                          'False Positive',
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.greenAccent.withOpacity(0.6)),
+                      ),
+                      child: const Text(
+                        'USER FEEDBACK',
+                        style: TextStyle(color: Colors.greenAccent, fontWeight: FontWeight.bold, fontSize: 11),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0F172A),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Legitimate Message Content:',
+                        style: TextStyle(color: Colors.white54, fontSize: 11, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 6),
+                      SelectableText(
+                        item.messageContent,
+                        style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.4),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Reported: $timeFormatted',
+                  style: const TextStyle(color: Colors.white54, fontSize: 12),
+                ),
+              ],
             ),
           ),
         );
