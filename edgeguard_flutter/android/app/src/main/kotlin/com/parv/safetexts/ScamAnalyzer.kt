@@ -165,8 +165,8 @@ class ScamAnalyzer private constructor(private val context: Context) {
             }
                 .setSmallIcon(android.R.drawable.ic_dialog_alert)
                 .setContentTitle(if (isBrowserSpam) "⚠️ PHISHING ALERT" else "🚨 SCAM ALERT: ${message.sender}")
-                .setContentText(message.content.take(60))
-                .setStyle(Notification.BigTextStyle().bigText("From: " + message.sender + " (" + message.appName + ")\n\n" + message.content))
+                .setContentText("Potential scam message intercepted from ${message.sender}")
+                .setStyle(Notification.BigTextStyle().bigText("SafeConvos intercepted a potential scam from ${message.sender} (${message.appName}). Open SafeConvos to view details."))
                 .setPriority(Notification.PRIORITY_MAX)
                 .setCategory(Notification.CATEGORY_ALARM)
                 .setFullScreenIntent(pendingIntent, true)
@@ -191,12 +191,6 @@ class ScamAnalyzer private constructor(private val context: Context) {
 
     private fun showScamWarningNotification(message: MessageEntity) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        
-        val snippet = if (message.content.length > 50) {
-            message.content.substring(0, 50) + "..."
-        } else {
-            message.content
-        }
 
         val notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Notification.Builder(context, "SCAM_ALERTS")
@@ -206,8 +200,8 @@ class ScamAnalyzer private constructor(private val context: Context) {
         }
             .setSmallIcon(android.R.drawable.ic_dialog_alert)
             .setContentTitle("⚠️ SCAM WARNING: ${message.sender}")
-            .setContentText("\"$snippet\"")
-            .setStyle(Notification.BigTextStyle().bigText("From: " + message.sender + " (" + message.appName + ")\n\n" + message.content))
+            .setContentText("Potential scam intercepted from ${message.sender}")
+            .setStyle(Notification.BigTextStyle().bigText("SafeConvos intercepted a potential scam from ${message.sender} (${message.appName}). Open SafeConvos to view details."))
             .setPriority(Notification.PRIORITY_HIGH)
             .setDefaults(Notification.DEFAULT_ALL)
             .setAutoCancel(true)

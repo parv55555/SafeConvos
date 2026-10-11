@@ -169,27 +169,14 @@ class ScamAlertActivity : Activity() {
         }
         cardLayout.addView(senderView)
 
-        if (content.isNotEmpty()) {
-            val messageBox = LinearLayout(this).apply {
-                orientation = LinearLayout.VERTICAL
-                background = GradientDrawable().apply {
-                    setColor(Color.parseColor("#FFFFFF"))
-                    cornerRadius = 24f
-                    setStroke(2, Color.parseColor("#FFCDD2"))
-                }
-                setPadding(32, 24, 32, 24)
-            }
-            val contentTv = TextView(this).apply {
-                text = content
-                textSize = 15f
-                setTextColor(Color.parseColor("#37474F"))
-                maxLines = 6
-                ellipsize = android.text.TextUtils.TruncateAt.END
-            }
-            messageBox.addView(contentTv)
-            cardLayout.addView(messageBox)
-            cardLayout.addView(View(this).apply { layoutParams = LinearLayout.LayoutParams(1, 24) })
+        val warningDesc = TextView(this).apply {
+            text = "A potential scam was intercepted. Do not transfer money, share OTPs, or click any unverified links."
+            textSize = 15f
+            setTextColor(Color.parseColor("#424242"))
+            gravity = Gravity.CENTER
+            setPadding(0, 0, 0, 24)
         }
+        cardLayout.addView(warningDesc)
 
         if (isApk) {
             val apkWarning = TextView(this).apply {
