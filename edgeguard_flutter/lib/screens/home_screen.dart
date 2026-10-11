@@ -99,6 +99,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _silentSyncFalsePositiveToServerpod(String msgId, String content) async {
+    bool reportEnabled = prefs.getBool('report_to_dashboard') ?? true;
+    if (!reportEnabled) {
+      print('Reporting to dashboard disabled by user settings.');
+      return;
+    }
     String key = 'fp_synced_$msgId';
     bool alreadySynced = prefs.getBool(key) ?? false;
     if (!alreadySynced) {
@@ -116,6 +121,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   Future<void> _silentSyncToServerpod(String sender, String category, String content) async {
+    bool reportEnabled = prefs.getBool('report_to_dashboard') ?? true;
+    if (!reportEnabled) {
+      print('Reporting to dashboard disabled by user settings.');
+      return;
+    }
     String key = 'synced_${sender}_${content.hashCode}';
     bool alreadySynced = prefs.getBool(key) ?? false;
     if (!alreadySynced) {

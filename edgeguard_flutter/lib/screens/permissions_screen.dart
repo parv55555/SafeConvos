@@ -1,3 +1,4 @@
+import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,10 +21,12 @@ class _PermissionsScreenState extends State<PermissionsScreen> with WidgetsBindi
   bool isBatteryOptimized = false;
   bool isUsageStatsEnabled = false;
   bool isInitialized = false;
+  bool isReportToDashboardEnabled = true;
 
   @override
   void initState() {
     super.initState();
+    isReportToDashboardEnabled = prefs.getBool('report_to_dashboard') ?? true;
     WidgetsBinding.instance.addObserver(this);
     _checkPermissions();
   }
@@ -86,7 +89,7 @@ class _PermissionsScreenState extends State<PermissionsScreen> with WidgetsBindi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Permissions')),
+      appBar: AppBar(title: const Text('Settings & Permissions')),
       body: ListView(
         padding: const EdgeInsets.all(24.0),
         children: [
@@ -116,7 +119,41 @@ class _PermissionsScreenState extends State<PermissionsScreen> with WidgetsBindi
             _buildRow('Usage Access', 'Required to detect when banking apps are opened to prevent digital arrest scams.', isUsageStatsEnabled, 'usage'),
           ]),
           const SizedBox(height: 24),
-          const Text('System & Background', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    const Text('Threat Intelligence Dashboard', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 16),
+          _buildCard([
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Report Scams to Dashboard', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Automatically share detected scam alerts with the live SafeConvos threat intelligence dashboard.',
+                        style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                      ),
+                    ],
+                  ),
+                ),
+                Switch(
+                  value: isReportToDashboardEnabled,
+                  onChanged: (val) async {
+                    setState(() {
+                      isReportToDashboardEnabled = val;
+                    });
+                    await prefs.setBool('report_to_dashboard', val);
+                  },
+                  activeThumbColor: Colors.white,
+                  activeTrackColor: Colors.green,
+                )
+              ],
+            ),
+          ]),
+          const SizedBox(height: 24),
+const Text('System & Background', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
           _buildCard([
             _buildRow('Battery Optimization', 'Prevent the system from killing the background scanner.', isBatteryOptimized, 'battery'),
