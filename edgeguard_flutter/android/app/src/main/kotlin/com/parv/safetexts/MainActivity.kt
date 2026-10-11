@@ -73,6 +73,15 @@ class MainActivity: FlutterActivity() {
                         }
                     }
                 }
+                "deleteAllMessages" -> {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val db = AppDatabase.getDatabase(applicationContext)
+                        db.messageDao().deleteAll()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            result.success(true)
+                        }
+                    }
+                }
                 "checkPermissions" -> {
                     val res = mapOf(
                         "isAccessibilityEnabled" to isAccessibilityServiceEnabled(context),

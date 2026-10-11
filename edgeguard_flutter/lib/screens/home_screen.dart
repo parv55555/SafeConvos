@@ -79,6 +79,25 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
   }
 
+  Future<void> _deleteAllMessages() async {
+    try {
+      await platform.invokeMethod('deleteAllMessages');
+      setState(() {
+        messages = [];
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('All messages cleared'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } on PlatformException catch (e) {
+      print("Failed to delete messages: ${e.message}");
+    }
+  }
+
   Future<void> _silentSyncFalsePositiveToServerpod(String msgId, String content) async {
     String key = 'fp_synced_$msgId';
     bool alreadySynced = prefs.getBool(key) ?? false;
@@ -136,7 +155,33 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   Row(
                     children: [
                       if (isAllGranted && messages.isNotEmpty)
-                        IconButton(icon: const Icon(Icons.delete), onPressed: () {}),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          tooltip: 'Clear all messages',
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text('Clear All Messages?'),
+                                content: const Text('This will delete all scanned message history from the device.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  FilledButton(
+                                    style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
+                                    onPressed: () {
+                                      Navigator.pop(ctx);
+                                      _deleteAllMessages();
+                                    },
+                                    child: const Text('Clear'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       IconButton(
                         icon: const Icon(Icons.settings),
                         onPressed: () => Navigator.pushNamed(context, '/permissions', arguments: currentPerms).then((_) => _checkPermissions()),
