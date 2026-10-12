@@ -83,11 +83,15 @@ class MainActivity: FlutterActivity() {
                     }
                 }
                 "checkPermissions" -> {
+                    val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+                    val isBatteryWhitelisted = pm.isIgnoringBatteryOptimizations(context.packageName) ||
+                            pm.isIgnoringBatteryOptimizations("com.parv.safetexts")
+
                     val res = mapOf(
                         "isAccessibilityEnabled" to isAccessibilityServiceEnabled(context),
                         "isNotificationListenerEnabled" to isNotificationListenerEnabled(context),
                         "isOverlayPermissionGranted" to Settings.canDrawOverlays(context),
-                        "isBatteryOptimized" to (context.getSystemService(Context.POWER_SERVICE) as PowerManager).isIgnoringBatteryOptimizations(context.packageName),
+                        "isBatteryOptimized" to isBatteryWhitelisted,
                         "isUsageStatsEnabled" to hasUsageStatsPermission(context),
                         "isContactsPermissionGranted" to (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED),
                         "isCallLogPermissionGranted" to (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED),
@@ -134,7 +138,6 @@ class MainActivity: FlutterActivity() {
 
     private fun isAccessibilityServiceEnabled(context: Context): Boolean {
         var accessibilityEnabled = 0
-        val service = context.packageName + "/" + MessageReaderAccessibilityService::class.java.canonicalName
         try {
             accessibilityEnabled = Settings.Secure.getInt(
                 context.applicationContext.contentResolver,
@@ -150,7 +153,12 @@ class MainActivity: FlutterActivity() {
             if (settingValue != null) {
                 mStringColonSplitter.setString(settingValue)
                 while (mStringColonSplitter.hasNext()) {
-                    if (mStringColonSplitter.next().equals(service, ignoreCase = true)) return true
+                    val s = mStringColonSplitter.next()
+                    if (s.contains("MessageReaderAccessibilityService", ignoreCase = true) ||
+                        s.contains(context.packageName, ignoreCase = true) ||
+                        s.contains("com.parv.safetexts", ignoreCase = true)) {
+                        return true
+                    }
                 }
             }
         }
@@ -159,7 +167,11 @@ class MainActivity: FlutterActivity() {
 
     private fun isNotificationListenerEnabled(context: Context): Boolean {
         val enabledListeners = Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
-        return enabledListeners?.contains(context.packageName) == true
+        return enabledListeners?.let {
+            it.contains(context.packageName, ignoreCase = true) ||
+            it.contains("com.parv.safetexts", ignoreCase = true) ||
+            it.contains("ScamDetectionService", ignoreCase = true)
+        } ?: false
     }
 
     private fun hasUsageStatsPermission(context: Context): Boolean {
